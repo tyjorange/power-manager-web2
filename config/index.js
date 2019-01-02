@@ -11,18 +11,18 @@ module.exports = {
     assetsPublicPath: '/',
     // 跨域支持
     proxyTable: {
-      // '/web_api': {
-      //   target: 'http://localhost:8081',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/web_api': ''
-      //   }
-      // }
+       '/web_api': {
+         target: 'http://localhost:8082',
+         changeOrigin: true,
+         pathRewrite: {
+           '^/web_api': ''
+         }
+       }
     },
 
     // Various Dev Server settings
     // if you want dev by ip, please set host: '0.0.0.0'
-    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 9528, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

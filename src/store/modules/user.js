@@ -48,6 +48,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_PERMISSIONS: (state, permissions) => {
+      state.permissions = permissions
     }
   },
 
@@ -61,7 +64,7 @@ const user = {
         API_LoginByUsername(username, userInfo.password).then(response => {
           const data = response.data
           commit('SET_TOKEN', data)
-          C_SetToken(data) 
+          C_SetToken(data)
           resolve()
         }).catch(error => {
           reject(error)
@@ -77,7 +80,7 @@ const user = {
       return new Promise((resolve, reject) => {
         API_GetUserInfo(state.token).then(response => {
           if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
-            reject('error response data')
+            //reject('error response data')
           }
           const data = response.data
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
@@ -88,6 +91,7 @@ const user = {
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)
+          commit('SET_PERMISSIONS', data.permissions)
           resolve(response)
         }).catch(error => {
           reject(error)
