@@ -294,15 +294,14 @@ export const constantRouterMap = [{
       icon: 'peoples'
     },
     children: [{
-        path: '/accountManageInit',
-        name: 'AccountManageInit',
-        component: () => import('@/views/table/index'),
-        meta: {
-          title: 'AccountManageInit',
-          icon: 'people'
-        }
-      },
-    ]
+      path: '/accountManageInit',
+      name: 'AccountManageInit',
+      component: () => import('@/views/table/index'),
+      meta: {
+        title: 'AccountManageInit',
+        icon: 'people'
+      }
+    }, ]
   },
 
   {
