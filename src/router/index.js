@@ -162,7 +162,7 @@ export const constantRouterMap = [{
     children: [{
       path: '/gradeSubentry',
       name: 'GradeSubentry',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/statistics/GradeSubentry'),
       meta: {
         title: 'GradeSubentry',
         icon: 'form'
@@ -170,7 +170,7 @@ export const constantRouterMap = [{
     }, {
       path: '/gradeTime',
       name: 'GradeTime',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/statistics/GradeTime'),
       meta: {
         title: 'GradeTime',
         icon: 'form'
@@ -186,7 +186,7 @@ export const constantRouterMap = [{
     }, {
       path: '/classifySumm',
       name: 'ClassifySumm',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/statistics/ClassifySumm'),
       meta: {
         title: 'ClassifySumm',
         icon: 'form'
@@ -194,7 +194,7 @@ export const constantRouterMap = [{
     }, {
       path: '/compHorizontal',
       name: 'CompHorizontal ',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/statistics/CompH'),
       meta: {
         title: 'CompHorizontal',
         icon: 'form'
