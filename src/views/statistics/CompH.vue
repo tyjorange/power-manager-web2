@@ -1,5 +1,5 @@
 <template>
-<section>
+<section style="padding: 10px;">
   <el-row style="text-align: left;padding-bottom: 10px;border-bottom: 1px solid #c5ccd5;">
     <el-button type="success" plain>逐时</el-button>
     <el-button type="success" plain>逐日</el-button>

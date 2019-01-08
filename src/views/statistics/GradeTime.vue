@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section style="padding: 10px;">
     <!--工具条-->
     <el-col
       :span="24"

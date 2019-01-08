@@ -1,5 +1,5 @@
 <template>
-<section>
+<section style="padding: 10px;">
   <!--工具条-->
   <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
     <el-form :inline="true" :model="filters">
@@ -93,8 +93,8 @@
     <template>
        <div id="itemPieChart" style="width:100%;height:350px;text-align: center;"></div>
     </template>
-    
   </el-card>
+  
   <el-card class="box-card" style="width:49.85%;height: 420px;float:right;margin-top: 8px;">
     <div slot="header" class="clearfix" style="text-align: left;">
       <span style="color:#2DC3D0;"><i class="el-icon-info"></i> <b>分级占比</b> </span>
@@ -133,13 +133,9 @@
 
 <script>
 
-// 引入基本模板
-let echarts = require("echarts/lib/echarts");
-// 引入饼状图组件
-require("echarts/lib/chart/pie");
-// 引入提示框和title组件
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/title");
+import echarts from "echarts";
+require("echarts/theme/macarons"); // echarts theme
+import { debounce } from "@/utils";
 
 let data = () => {
   return {
@@ -279,34 +275,35 @@ let drawPie = function() {
           formatter: "{a} <br/>{b} : {c} ({d}%)"
       },
       legend: {
-          orient : 'vertical',
-          x : 'left',
-          data:['空调','客厅','照明','测试1','测试2']
+          left: "center",
+          bottom: "10",
+          data:["动力", "照明", "空调", "空压", "电梯", "生活", "特殊"]
       },
       series: [{
           name: '能源用量',
           type: 'pie',
-          radius: '55%',
-          data: [{
-              value: 235,
-              name: '空调'
-            },
-            {
-              value: 274,
-              name: '客厅'
-            },
-            {
-              value: 310,
-              name: '照明'
-            },
-            {
-              value: 335,
-              name: '测试1'
-            },
-            {
-              value: 400,
-              name: '测试2'
-            }
+          roseType: "radius",
+          radius: [15, 95],
+          center: ["50%", "38%"],
+          itemStyle: {
+             normal: {
+              label: {
+                 show: true,
+                 formatter: "{b} : {c} ({d}%)"
+               },
+               labelLine: { show: true }
+             }
+          },
+          animationEasing: "cubicInOut",
+          animationDuration: 1500,
+          data: [
+            { value: 220, name: "动力" },
+            { value: 240, name: "照明" },
+            { value: 249, name: "空调" },
+            { value: 100, name: "空压" },
+            { value: 259, name: "电梯" },
+            { value: 100, name: "生活" },
+            { value: 190, name: "特殊" }
           ]
         }]
     });
@@ -401,7 +398,6 @@ export default {
  .el-table .warning-row {
     background: oldlace;
   }
-
   .el-table .success-row {
     background: #f0f9eb;
   }
