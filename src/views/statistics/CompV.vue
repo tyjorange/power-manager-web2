@@ -51,6 +51,25 @@
    <template>
     <div id="myChart" style="width:100%;height:650px;text-align: center;margin-top: 60px;"></div>
   </template>
+
+  <template>
+    <el-table style="width: 100%; margin-top: 20px" :data="tableData" stripe border highlight-current-row align="center">
+        <el-table-column label="能源种类" prop="energyType" style="height:50px">
+        </el-table-column>
+        <el-table-column width="800" label='2018年（单位：吨标准煤）'>
+            <template v-for='(col) in cols'>
+              <el-table-column
+                :show-overflow-tooltip="true"
+                :label="col.label"
+                :prop="col.prop"
+                :key="col.key"
+                width="120px"
+                style="height:50px">
+              </el-table-column>
+        </template>
+        </el-table-column>
+    </el-table>
+  </template>
   
 
 </section>
@@ -122,6 +141,62 @@ let data = () => {
 
     },
     year : new Date().getFullYear()+'',
+    cols: [
+      {
+        "label": "01",
+        "prop": "timeValue.01"
+      }, {
+        "label": "02",
+        "prop": "timeValue.02"
+      }, {
+        "label": "03",
+        "prop": "timeValue.03"
+      }, {
+        "label": "04",
+        "prop": "timeValue.04"
+      }, {
+        "label": "05",
+        "prop": "timeValue.05"
+      }, {
+        "label": "06",
+        "prop": "timeValue.06"
+      }, {
+        "label": "07",
+        "prop": "timeValue.07"
+      }, {
+        "label": "08",
+        "prop": "timeValue.08"
+      }, {
+        "label": "09",
+        "prop": "timeValue.09"
+      }, {
+        "label": "10",
+        "prop": "timeValue.10"
+      }, {
+        "label": "11",
+        "prop": "timeValue.11"
+      }, {
+        "label": "12",
+        "prop": "timeValue.12"
+        }],
+        "tableData": [
+          {
+            "energyType": "电力",
+            "timeValue": {
+              "01": 0.1341,
+              "02": 0.0375,
+              "03": 0.0625,
+              "04": 0.0176,
+              "05": 0.0224,
+              "06": 0.0382,
+              "07": 0.0721,
+              "08": '--',
+              "09": '--',
+              "10": 0.0186,
+              "11": 0.0228,
+              "12": 0.0907
+            }
+      }]
   }
 }
 
@@ -170,13 +245,13 @@ export default {
         ],
         series : [
             {
-                name:'上海永继电气股份有限公司',
+                name:'电力',
                 type:'bar',
-                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+                data:[0.1341, 0.0375, 0.0625, 0.0176, 0.0224, 0.0382, 0.0721, 0, 0, 0.0186, 0.0228, 0.0907],
                 markPoint : {
                     data : [
-                        {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
-                        {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
+                        {name : '年最高', value : 0.1341, xAxis: 0, yAxis: 0.135, symbolSize:68},
+                        {name : '年最低', value : 0, xAxis: 7, yAxis: 0}
                     ]
                 },
                 markLine : {
@@ -186,7 +261,7 @@ export default {
                 },
                 itemStyle:{
                     normal:{
-                        color:'#4876FF'
+                        color:'#87CEFF'
                     }
                 },
             }

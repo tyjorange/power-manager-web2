@@ -235,7 +235,7 @@ let initHeight = function() {
 // }
 
 let geCollector = function() {
-   this.collectors = [{collectorid:'1',name:'索罗内网测试'},{collectorid:'2',name:'内网测试22'}];  
+   this.collectors = [{collectorid:'1',name:'智能研发部办公室'},{collectorid:'2',name:'索罗思腾内网测试'}];  
 }
 
 export default {

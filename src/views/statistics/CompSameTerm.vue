@@ -4,14 +4,6 @@
     <el-button type="success" plain>逐时</el-button>
     <el-button type="success" plain>逐日</el-button>
     <el-button type="success" plain>逐月</el-button>
-
-    
-    <div class="block" style="float: right;">
-        
-        <el-date-picker v-model="year" type="year" placeholder="选择年">
-        </el-date-picker>
-    </div>
-    <label style="float: right;line-height: 40px;margin-right: 5px;">年份</label>
     
   </el-row>
   <!--工具条-->
@@ -26,15 +18,7 @@
             </el-form>
         </template>
       </el-form-item>
-      <el-form-item>
-        <template>
-            <el-form>
-                <el-form-item label="比较对象">
-                <select-tree v-model="otherObjects" :options="options" :props="defaultProps"  />
-                </el-form-item>
-            </el-form>
-        </template>
-      </el-form-item>
+    
       <template>
         <el-form-item label="能源种类">
             <el-select v-model="energyType" placeholder="请选择">
@@ -47,6 +31,20 @@
             </el-select>
         </el-form-item>
       </template>
+
+     <el-form-item label="基准年份">
+      <div class="block" style="float: right;">
+        <el-date-picker v-model="standardYear" type="year" placeholder="选择年">
+        </el-date-picker>
+      </div>
+     </el-form-item>
+
+     <el-form-item label="对比年份">
+      <div class="block" style="float: right;">
+        <el-date-picker v-model="contrastYear" type="year" placeholder="选择年">
+        </el-date-picker>
+      </div>
+     </el-form-item>
       
       <el-form-item>
         <el-button type="primary" icon="el-icon-search">刷新</el-button>
@@ -61,20 +59,21 @@
   
   <template>
     <el-table style="width: 100%; margin-top: 20px" :data="tableData" stripe border highlight-current-row align="center">
-        <el-table-column label="用能单元" prop="collectorName" style="height:50px">
+        <el-table-column label="时间" prop="time" style="height:50px">
         </el-table-column>
-        <el-table-column width="800" label='2018年（单位：万千瓦时）'>
-            <template v-for='(col) in cols'>
-              <el-table-column
-                :show-overflow-tooltip="true"
-                :label="col.label"
-                :prop="col.prop"
-                :key="col.key"
-                width="120px"
-                style="height:50px">
-              </el-table-column>
-        </template>
+        <el-table-column label="单位" prop="unit" style="height:50px">
         </el-table-column>
+        <template v-for='(col) in cols'>
+            <el-table-column
+            :show-overflow-tooltip="true"
+            :label="col.label"
+            :prop="col.prop"
+            :key="col.key"
+            width="120px"
+            style="height:50px">
+            </el-table-column>
+    </template>
+       
     </el-table>
   </template>
 
@@ -97,7 +96,6 @@ let data = () => {
   return {
     // 默认选中值
       statisticalObjects: 'root',
-      otherObjects: '1',
       // 数据默认字段
       defaultProps: {
         parent: 'parentId',   // 父级唯一标识
@@ -142,7 +140,8 @@ let data = () => {
     filters:{
 
     },
-    year : new Date().getFullYear()+'',
+    standardYear : new Date().getFullYear()-1+'',
+    contrastYear : new Date().getFullYear()-2+'',
     cols: [
 	{
 		"label": "01",
@@ -183,37 +182,39 @@ let data = () => {
     }],
     "tableData": [
 	{
-		"collectorName": "上海永继电气股份有限公司",
+        "time": "2017",
+        "unit":'万千瓦时',
 		"timeValue": {
-			"01": 2.6,
-			"02": 5.9,
-			"03": 9,
-			"04": 26.4,
-			"05": 28.7,
-			"06": 70.7,
-			"07": 175.6,
-			"08": 182.2,
-			"09": 48.7,
-			"10": 18.8,
-			"11": 6,
-			"12": 2.3
+			"01": '--',
+			"02": '0.0000',
+			"03": '--',
+			"04": '--',
+			"05": '--',
+			"06": '--',
+			"07": '--',
+			"08": '--',
+			"09": '0.0055',
+			"10": '0.0128',
+			"11": '0.0000',
+			"12": '0.0712'
 		}
     },
     {
-		"collectorName": "智能研发部办公室",
+		"time": "2018",
+        "unit":'万千瓦时',
 		"timeValue": {
-			"01": 2,
-			"02": 4.9,
-			"03": 7,
-			"04": 23.2,
-			"05": 25.6,
-			"06": 66.7,
-			"07": 135.6,
-			"08": 162.2,
-			"09": 32.6,
-			"10": 16,
-			"11": 5.4,
-			"12": 1.3
+			"01": '0.1091',
+			"02": '0.0305',
+			"03": '0.0508',
+			"04": '0.0143',
+			"05": '0.0182',
+			"06": '0.0311',
+			"07": '0.0587',
+			"08": '--',
+			"09": '--',
+			"10": '0.0151',
+			"11": '0.0186',
+			"12": '0.0738'
 		}
 	}]
   }
@@ -238,7 +239,7 @@ export default {
             trigger: 'axis'
         },
         legend: {
-            data:['上海永继电气股份有限公司','智能研发部办公室']
+            data:['2017','2018']
         },
         toolbox: {
             show : true,
@@ -264,13 +265,13 @@ export default {
         ],
         series : [
             {
-                name:'上海永继电气股份有限公司',
+                name:'2017',
                 type:'bar',
-                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+                data:[0, 0, 0, 0, 0, 0, 0, 0, 0.0055, 0.0128, 0, 0.0712],
                 markPoint : {
                     data : [
-                        {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183},
-                        {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
+                        {name : '年最高', value : 0.0712, xAxis: 11, yAxis: 0.072},
+                        {name : '年最低', value : 0, xAxis: 0, yAxis: 0}
                     ]
                 },
                 markLine : {
@@ -285,13 +286,13 @@ export default {
                 },
             },
             {
-                name:'智能研发部办公室',
+                name: '2018',
                 type:'bar',
-                data:[2.0, 4.9, 7.0, 23.2, 25.6, 66.7, 135.6, 162.2, 32.6, 16.0, 5.4, 1.3],
+                data:[0.1091, 0.0305, 0.0508, 0.0143, 0.0182, 0.0311, 0.0587, 0, 0, 0.0151, 0.0186, 0.0738],
                 markPoint : {
                     data : [
-                        {type : 'max', name: '最大值'},
-                        {type : 'min', name: '最小值'}
+                        {name : '年最高', value : 0.1091, xAxis: 0, yAxis: 0.11},
+                        {name : '年最低', value : 0, xAxis: 7, yAxis: 0}
                     ]
                 },
                 markLine : {

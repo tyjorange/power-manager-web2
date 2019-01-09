@@ -31,7 +31,7 @@
             type="date"
             placeholder="选择日期">
           </el-date-picker>
-          <span>——</span>
+          <span style="vertical-align: top;">——</span>
           <el-date-picker
             v-model="filters.endTime"
             format="yyyy-MM-dd"
@@ -41,7 +41,7 @@
           </el-date-picker>
         </div>
         <div class="block" v-if="this.filters.timeTypeValue == 1">
-          <span class="demonstration">年</span>
+          <span class="demonstration"  style="vertical-align: top;">年</span>
           <el-date-picker
             v-model="filters.year"
             format="yyyy"
@@ -258,14 +258,18 @@ let initHeight = function() {
   this.clientHeight = (document.documentElement.clientHeight - 258) + 'px'
 }
 
+// let geCollector = function() {
+//   this.$axios({
+//             method: 'get',
+//             url:"/getCollector",
+//             data:null,
+//         }).then((res)=>{
+//             this.collectors = res.data.data;
+//         });
+// }
+
 let geCollector = function() {
-  this.$axios({
-            method: 'get',
-            url:"/getCollector",
-            data:null,
-        }).then((res)=>{
-            this.collectors = res.data.data;
-        });
+   this.collectors = [{collectorid:'1',name:'智能研发部办公室'},{collectorid:'2',name:'索罗思腾内网测试'}];  
 }
 
 let drawPie = function() {
