@@ -4,39 +4,50 @@
     <el-button type="success" plain>逐时</el-button>
     <el-button type="success" plain>逐日</el-button>
     <el-button type="success" plain>逐月</el-button>
+
+    
+    <div class="block" style="float: right;">
+        
+        <el-date-picker v-model="year" type="year" placeholder="选择年">
+        </el-date-picker>
+    </div>
+    <label style="float: right;line-height: 40px;margin-right: 5px;">年份</label>
+    
   </el-row>
   <!--工具条-->
   <el-col :span="24" class="toolbar" style="padding-bottom: 0px;text-align: left;margin-top: 10px;"> 
     <el-form :inline="true" :model="filters">
       <el-form-item>
-        <el-select v-model="filters.collectorID" placeholder="" @focus="geCollector()" >
-          <el-option v-for="item in collectors"
-               :key="item.collectorid"
-               :label="item.name"
-               :value="item.collectorid">
-          </el-option>
-        </el-select>
+        <template>
+            <el-form>
+                <el-form-item label="统计对象">
+                <select-tree v-model="statisticalObjects" :options="options" :props="defaultProps"  />
+                </el-form-item>
+            </el-form>
+        </template>
       </el-form-item>
       <el-form-item>
-        <div class="block">
-          <span class="demonstration">年份</span>
-          <el-date-picker
-            v-model="year"
-            type="year"
-            placeholder="选择年">
-          </el-date-picker>
-        </div>
-        <div class="block" v-if="this.filters.timeTypeValue == 0">
-            <span class="demonstration">月</span>
-            <el-date-picker
-              v-model="filters.month"
-              format="yyyy-MM"
-              value-format="yyyy-MM"
-              type="month"
-              placeholder="选择月">
-            </el-date-picker>
-          </div>
+        <template>
+            <el-form>
+                <el-form-item label="比较对象">
+                <select-tree v-model="otherObjects" :options="options" :props="defaultProps"  />
+                </el-form-item>
+            </el-form>
+        </template>
       </el-form-item>
+      <template>
+        <el-form-item label="能源种类">
+            <el-select v-model="energyType" placeholder="请选择">
+                <el-option
+                v-for="item in energyTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+                </el-option>
+            </el-select>
+        </el-form-item>
+      </template>
+      
       <el-form-item>
         <el-button type="primary" icon="el-icon-search">刷新</el-button>
       </el-form-item>
@@ -48,6 +59,24 @@
     <div id="myChart" style="width:100%;height:650px;text-align: center;margin-top: 60px;"></div>
   </template>
   
+  <template>
+    <el-table style="width: 100%; margin-top: 20px" :data="tableData" stripe border highlight-current-row align="center">
+        <el-table-column label="用能单元" prop="collectorName" style="height:50px">
+        </el-table-column>
+        <el-table-column width="800" label='2018年（单位：万千瓦时）'>
+            <template v-for='(col) in cols'>
+              <el-table-column
+                :show-overflow-tooltip="true"
+                :label="col.label"
+                :prop="col.prop"
+                :key="col.key"
+                width="120px"
+                style="height:50px">
+              </el-table-column>
+        </template>
+        </el-table-column>
+    </el-table>
+  </template>
 
 </section>
 </template>
@@ -62,47 +91,154 @@ require("echarts/lib/chart/bar");
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/title");
 
+import SelectTree from '@/components/SelectTree/index.vue';
+
 let data = () => {
   return {
-    //查询条件
-    filters: {
-      collectorID: ''
+    // 默认选中值
+      statisticalObjects: 'root',
+      otherObjects: '1',
+      // 数据默认字段
+      defaultProps: {
+        parent: 'parentId',   // 父级唯一标识
+        value: 'id',          // 唯一标识
+        label: 'label',       // 标签显示
+        children: 'children', // 子级
+      },
+      // 数据列表
+      options: [
+        {
+          parentId: '0',
+          id: 'root',
+          label: '上海永继电气股份有限公司',
+          children: [
+            {
+              parentId: 'root',
+              id: '1',
+              label: '智能研发部办公室',
+            },
+            {
+              parentId: 'root',
+              id: '2',
+              label: '索罗思腾内网测试',
+            },
+          ],
+        }
+      ],
+    energyTypeOptions: [{
+          value: '1',
+          label: '电力'
+        }, {
+          value: '2',
+          label: '水'
+        }, {
+          value: '3',
+          label: '热能'
+        }, {
+          value: '4',
+          label: '燃气'
+        }],
+    energyType: '1',
+    filters:{
+
     },
     year : new Date().getFullYear()+'',
-    collectors : []
-
+    cols: [
+	{
+		"label": "01",
+		"prop": "timeValue.01"
+	}, {
+		"label": "02",
+		"prop": "timeValue.02"
+	}, {
+		"label": "03",
+		"prop": "timeValue.03"
+	}, {
+		"label": "04",
+		"prop": "timeValue.04"
+	}, {
+		"label": "05",
+		"prop": "timeValue.05"
+	}, {
+		"label": "06",
+		"prop": "timeValue.06"
+	}, {
+		"label": "07",
+		"prop": "timeValue.07"
+	}, {
+		"label": "08",
+		"prop": "timeValue.08"
+	}, {
+		"label": "09",
+		"prop": "timeValue.09"
+	}, {
+		"label": "10",
+		"prop": "timeValue.10"
+	}, {
+		"label": "11",
+		"prop": "timeValue.11"
+	}, {
+		"label": "12",
+		"prop": "timeValue.12"
+    }],
+    "tableData": [
+	{
+		"collectorName": "上海永继电气股份有限公司",
+		"timeValue": {
+			"01": 2.6,
+			"02": 5.9,
+			"03": 9,
+			"04": 26.4,
+			"05": 28.7,
+			"06": 70.7,
+			"07": 175.6,
+			"08": 182.2,
+			"09": 48.7,
+			"10": 18.8,
+			"11": 6,
+			"12": 2.3
+		}
+    },
+    {
+		"collectorName": "智能研发部办公室",
+		"timeValue": {
+			"01": 2,
+			"02": 4.9,
+			"03": 7,
+			"04": 23.2,
+			"05": 25.6,
+			"06": 66.7,
+			"07": 135.6,
+			"08": 162.2,
+			"09": 32.6,
+			"10": 16,
+			"11": 5.4,
+			"12": 1.3
+		}
+	}]
   }
 }
 
-let geCollector = function() {
-  this.$axios({
-            method: 'get',
-            url:"/getCollector",
-            data:null,
-        }).then((res)=>{
-            this.collectors = res.data.data;
-        });
-}
 
 export default {
+  components: {
+    SelectTree,
+  },
   data: data,
   methods: {
-    //获取所有集中器列表
-    geCollector,
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
       let myChart = echarts.init(document.getElementById("myChart"));
       // 绘制图表
       myChart.setOption({
         title : {
-          text: '上海永继电气股份有限公司',
-          
+          text: '',
         },
         tooltip : {
             trigger: 'axis'
         },
         legend: {
-            data:['客厅','空调']
+            data:['上海永继电气股份有限公司','智能研发部办公室']
         },
         toolbox: {
             show : true,
@@ -128,28 +264,7 @@ export default {
         ],
         series : [
             {
-                name:'客厅',
-                type:'bar',
-                data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-                markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值'},
-                        {type : 'min', name: '最小值'}
-                    ]
-                },
-                markLine : {
-                    data : [
-                        {type : 'average', name: '平均值'}
-                    ]
-                },
-                itemStyle:{
-                    normal:{
-                        color:'#63B8FF'
-                    }
-                },
-            },
-            {
-                name:'空调',
+                name:'上海永继电气股份有限公司',
                 type:'bar',
                 data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
                 markPoint : {
@@ -168,7 +283,28 @@ export default {
                         color:'#4876FF'
                     }
                 },
-            }
+            },
+            {
+                name:'智能研发部办公室',
+                type:'bar',
+                data:[2.0, 4.9, 7.0, 23.2, 25.6, 66.7, 135.6, 162.2, 32.6, 16.0, 5.4, 1.3],
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name: '平均值'}
+                    ]
+                },
+                itemStyle:{
+                    normal:{
+                        color:'#63B8FF'
+                    }
+                },
+            } 
         ]
       });
     }
@@ -180,5 +316,7 @@ export default {
 </script>
 
 <style>
- 
+ .el-table th{
+     text-align: center;
+ }
 </style>

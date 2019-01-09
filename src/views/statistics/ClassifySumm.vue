@@ -65,20 +65,19 @@
       <span style="color:#2DC3D0;"><i class="el-icon-info"></i> <b>能耗分类汇总统计表</b> </span>
     </div>
     <div class="text item">
-      <el-table style="width: 100%; margin-top: 20px" stripe border
-        highlight-current-row v-loading="pageLoading" align="center">
-        <el-table-column label="能源种类" prop="collector" style="height:50px">
+      <el-table style="width: 100%; margin-top: 20px" :data="summData" stripe border align="center">
+        <el-table-column label="能源种类" prop="energyType" style="height:50px">
         </el-table-column>
-        <el-table-column label="实物量" prop="collector" style="height:50px">
+        <el-table-column label="实物量" prop="converting" style="height:50px">
         </el-table-column>
-        <el-table-column label="计量单位" prop="collector" style="height:50px">
+        <el-table-column label="计量单位" prop="unit" style="height:50px">
         </el-table-column>
-        <el-table-column label="折标系数" prop="collector" style="height:50px">
+        <el-table-column label="折标系数" prop="factor" style="height:50px">
         </el-table-column>
-        <el-table-column label="当量值" prop="collector" style="height:50px">
-          <el-table-column label="折标准煤(吨标准煤)" prop="collector" style="height:50px">
+        <el-table-column label="当量值" style="height:50px">
+          <el-table-column label="折标准煤(吨标准煤)" prop="coal" style="height:50px">
           </el-table-column>
-          <el-table-column label="占比(%)" prop="collector" style="height:50px">
+          <el-table-column label="占比(%)" prop="proportion" style="height:50px">
           </el-table-column>
         </el-table-column>
       </el-table>
@@ -94,7 +93,7 @@
        <div id="itemPieChart" style="width:100%;height:350px;text-align: center;"></div>
     </template>
   </el-card>
-  
+
   <el-card class="box-card" style="width:49.85%;height: 420px;float:right;margin-top: 8px;">
     <div slot="header" class="clearfix" style="text-align: left;">
       <span style="color:#2DC3D0;"><i class="el-icon-info"></i> <b>分级占比</b> </span>
@@ -169,14 +168,22 @@ let data = () => {
           value: '2',
           label: '年'
         }],
+    summData:[{
+      energyType:'电力',
+      converting:'0.4428',
+      unit:'万千瓦时',
+      factor:'1.2290',
+      coal:'0.5442',
+      proportion:'100.00'
+    }],
     tableData: [{
-            date: '索罗思腾内网测试',
-            name: '0.55',
-            address: '50%'
+            date: '智能研发部办公室',
+            name: '0.21',
+            address: '48%'
           }, {
-            date: '201811062222',
-            name: '0.55',
-            address: '50%'
+            date: '索罗思腾内网测试',
+            name: '0.2328',
+            address: '52%'
           }]
    
   }
@@ -404,4 +411,7 @@ export default {
   #gradeTable .has-gutter {
     display: none;
   }
+  .el-table th{
+     text-align: center;
+ }
 </style>

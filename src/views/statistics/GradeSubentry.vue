@@ -31,7 +31,7 @@
             type="date"
             placeholder="选择日期">
           </el-date-picker>
-          <span>——</span>
+          <span style="vertical-align: top;">——</span>
           <el-date-picker
             v-model="filters.endTime"
             format="yyyy-MM-dd"
@@ -60,76 +60,65 @@
         </div>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" v-on:click="handleQuery" icon="el-icon-search">刷新</el-button>
+        <el-button type="primary"  icon="el-icon-search">刷新</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" v-on:click="handleAdd" icon="el-icon-download">导出</el-button>
+        <el-button type="primary"  icon="el-icon-download">导出</el-button>
       </el-form-item>
     </el-form>
   </el-col>
-  <el-table :data="rows.datas" style="width: 100%; margin-top: 20px" stripe border
-    highlight-current-row v-loading="pageLoading" align="center">
-    <el-table-column label="用能单元" prop="collector" width="200" style="height:50px" fixed>
+  <el-table :data="tableData" style="width: 100%; margin-top: 20px" stripe border
+    highlight-current-row align="center" show-summary>
+    <el-table-column label="用能单元" prop="collectorName" key="collectorName" width="200" style="height:50px" fixed>
     </el-table-column>
-      <el-table-column width="800" label="电力(千瓦时)" :show-overflow-tooltip="true">
-          <!-- <el-table-column
-            :show-overflow-tooltip="true"
-            :label="动力"
-            :prop="power"
-             :key="power"
-             width="120px" style="height:50px">
+      <el-table-column width="800" label="电力(千瓦时)">
+          <el-table-column
+            label="动力"
+            prop="power"
+            key="power"
+            width="120px" style="height:50px">
           </el-table-column>
           <el-table-column
-            :show-overflow-tooltip="true"
-            :label="照明"
-            :prop="lighting"
-             :key="lighting"
-             width="120px" style="height:50px">
+            label="照明"
+            prop="lighting"
+            key="lighting"
+            width="120px" style="height:50px">
           </el-table-column>
           <el-table-column
-            :show-overflow-tooltip="true"
-            :label="空调"
-            :prop="airConditioner"
-             :key="airConditioner"
-             width="120px" style="height:50px">
+            label="空调"
+            prop="airConditioner"
+            key="airConditioner"
+            width="120px" style="height:50px">
           </el-table-column>
           <el-table-column
-            :show-overflow-tooltip="true"
-            :label="空压"
-            :prop="airPressure"
-             :key="airPressure"
-             width="120px" style="height:50px">
+            label="空压"
+            prop="airPressure"
+            key="airPressure"
+            width="120px" style="height:50px">
           </el-table-column>
           <el-table-column
-            :show-overflow-tooltip="true"
-            :label="电梯"
-            :prop="elevator"
-             :key="elevator"
-             width="120px" style="height:50px">
+            label="电梯"
+            prop="elevator"
+            key="elevator"
+            width="120px" style="height:50px">
           </el-table-column>
           <el-table-column
-            :show-overflow-tooltip="true"
-            :label="生活"
-            :prop="live"
-             :key="live"
-             width="120px" style="height:50px">
+            label="生活"
+            prop="live"
+            key="live"
+            width="120px" style="height:50px">
           </el-table-column>
           <el-table-column
-            :show-overflow-tooltip="true"
-            :label="特殊"
-            :prop="special"
-             :key="special"
-             width="120px" style="height:50px">
-          </el-table-column> -->
+            label="特殊"
+            prop="special"
+            key="special"
+            width="120px" style="height:50px">
+          </el-table-column>
       </el-table-column>
-      <!-- <el-table-column show-overflow-tooltip="true" label="综合能耗(吨标准煤)" prop="comprehensive" key="comprehensive">
-      </el-table-column> -->
+      <el-table-column label="综合能耗(吨标准煤)" prop="comprehensive" key="comprehensive">
+      </el-table-column> 
   </el-table>
-  <!--底部-->
-  <!-- <el-col :span="24" class="toolbar">
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-    </el-pagination>
-  </el-col> -->
+ 
 
 </section>
 </template>
@@ -138,12 +127,6 @@
 
 let data = () => {
   return {
-    //页码
-    page: 1,
-    //每页数量
-    size: 20,
-    //总数
-    total: 0,
     //查询条件
     filters: {
       collectorID: '',
@@ -153,10 +136,6 @@ let data = () => {
       month: new Date().getFullYear()+'-'+new Date().getMonth()+"-",
       year:new Date().getFullYear()-1+'-'
     },
-    //页面数据
-    rows: [],
-    //页面载入状态
-    pageLoading: false,
     //列表高度
     clientHeight: '100%',
     collectors : [],
@@ -169,105 +148,101 @@ let data = () => {
         }, {
           value: '2',
           label: '年'
-        }]
+        }],
+     tableData: [{
+            collectorName: '智能研发部办公室',
+            collectorCode: '1',
+            power: '120',
+            lighting:'452',
+            airConditioner:'125',
+            airPressure:'145',
+            elevator:'147',
+            live:'785',
+            special:'0',
+            comprehensive:'1585'
+          }, {
+            collectorName: '索罗思腾内网测试',
+            collectorCode: '2',
+            power: '234',
+            lighting:'342',
+            airConditioner:'677',
+            airPressure:'123',
+            elevator:'345',
+            live:'678',
+            special:'0',
+            comprehensive:'2456'
+          }]
 
   }
 }
 
-let handleAdd = function() {
+// let getRows = function() {
+//   if (this.pageLoading)
+//     return
+//   this.pageLoading = true
 
-}
+//   //调用post请求
+//   const url ='/gradeSubentry';
+//   var params = new URLSearchParams();
+//   params.append('collectorID', this.filters.collectorID);       //你要传给后台的参数值 key/value
+//   if (this.filters.timeTypeValue == 0) {  //自定义时间
+//     params.append('startTime', this.filters.startTime);
+//     params.append('endTime', this.filters.endTime);
+//   } else if (this.filters.timeTypeValue == 1) { //按月
+//     params.append('startTime', this.filters.month);
+//   } else {  //按年
+//     params.append('startTime', this.filters.year);
+//   }
+//   params.append('timeType', this.filters.timeTypeValue);
+//   this.$axios({
+//     method: 'post',
+//     url:url,
+//     data:params
+//   }).then((res)=>{
+//    this.pageLoading = false
 
-let handleEdit = function(index, row) {
+//     if(res.data.code === 403) {
+//       this.common.notywarn(
+//         this.$notify,
+//         res.data.code,
+//         res.data.msg
+//       );
+//       this.$router.replace({ path: "/" });
+//     }
 
-}
-
-let handleDelete = function(index, row) {
-
-}
-
-let getRows = function() {
-  if (this.pageLoading)
-    return
-  this.pageLoading = true
-
-  //调用post请求
-  const url ='/gradeSubentry';
-  var params = new URLSearchParams();
-  params.append('collectorID', this.filters.collectorID);       //你要传给后台的参数值 key/value
-  if (this.filters.timeTypeValue == 0) {  //自定义时间
-    params.append('startTime', this.filters.startTime);
-    params.append('endTime', this.filters.endTime);
-  } else if (this.filters.timeTypeValue == 1) { //按月
-    params.append('startTime', this.filters.month);
-  } else {  //按年
-    params.append('startTime', this.filters.year);
-  }
-  params.append('timeType', this.filters.timeTypeValue);
-  this.$axios({
-    method: 'post',
-    url:url,
-    data:params
-  }).then((res)=>{
-   this.pageLoading = false
-
-    if(res.data.code === 403) {
-      this.common.notywarn(
-        this.$notify,
-        res.data.code,
-        res.data.msg
-      );
-      this.$router.replace({ path: "/" });
-    }
-
-    if (!res.data || !res.data.data)
-      return
-    //总数赋值
-    this.total = res.data.data.total
-    this.page++;
-    //页面元素赋值
-    this.rows = res.data.data;
-  }).catch(e => this.pageLoading = false)
-}
-
-let handleQuery = function() {
-  this.getRows()
-}
-
-let handleCurrentChange = function(val) {
-  this.page = val
-  this.getRows()
-}
+//     if (!res.data || !res.data.data)
+//       return
+//     //总数赋值
+//     this.total = res.data.data.total
+//     this.page++;
+//     //页面元素赋值
+//     this.rows = res.data.data;
+//   }).catch(e => this.pageLoading = false)
+// }
 
 let initHeight = function() {
   this.clientHeight = (document.documentElement.clientHeight - 258) + 'px'
 }
 
+// let geCollector = function() {
+//   this.$axios({
+//             method: 'get',
+//             url:"/getCollector",
+//             data:null,
+//         }).then((res)=>{
+//             this.collectors = res.data.data;
+//         });
+// }
+
 let geCollector = function() {
-  this.$axios({
-            method: 'get',
-            url:"/getCollector",
-            data:null,
-        }).then((res)=>{
-            this.collectors = res.data.data;
-        });
+   this.collectors = [{collectorid:'1',name:'索罗内网测试'},{collectorid:'2',name:'内网测试22'}];  
 }
 
 export default {
   data: data,
   methods: {
-    //查询
-    handleQuery,
-    //添加
-    handleAdd,
-    //修改
-    handleEdit,
-    //删除
-    handleDelete,
-    //页数改变
-    handleCurrentChange,
     //获取分页
-    getRows,
+    // getRows,
     //获取所有集中器列表
     geCollector,
     //初始化高度
@@ -312,7 +287,7 @@ export default {
   mounted: function() {
     window.addEventListener('resize', this.initHeight)
     this.initHeight()
-    this.getRows()
+    // this.getRows()
   }
 }
 </script>
@@ -325,4 +300,16 @@ export default {
   .el-table .success-row {
     background: #f0f9eb;
   }
+  .el-table__fixed-footer-wrapper tbody td {
+    border-top: 1px solid #ebeef5;
+    background-color: #dff0d8;
+    color: #606266;
+  }
+  .el-table__footer-wrapper tbody td {
+      background-color: #dff0d8;
+      color: #606266;
+  }
+  .el-table th{
+     text-align: center;
+ }
 </style>
