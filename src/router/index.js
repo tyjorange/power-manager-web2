@@ -178,7 +178,7 @@ export const constantRouterMap = [{
     }, {
       path: '/classifyItemTime',
       name: 'ClassifyItemTime',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/statistics/ClassifyItemTime'),
       meta: {
         title: 'ClassifyItemTime',
         icon: 'form'
@@ -202,7 +202,7 @@ export const constantRouterMap = [{
     }, {
       path: '/compVertical ',
       name: 'CompVertical',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/statistics/CompV'),
       meta: {
         title: 'CompVertical',
         icon: 'form'
@@ -210,7 +210,7 @@ export const constantRouterMap = [{
     }, {
       path: '/compSameTerm ',
       name: 'CompSameTerm',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/statistics/CompSameTerm'),
       meta: {
         title: 'CompSameTerm',
         icon: 'form'
@@ -218,7 +218,7 @@ export const constantRouterMap = [{
     }, {
       path: '/usedReport ',
       name: 'UsedReport',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/statistics/UsedReport'),
       meta: {
         title: 'UsedReport',
         icon: 'form'
@@ -238,7 +238,7 @@ export const constantRouterMap = [{
     children: [{
         path: '/enterprise',
         name: 'Enterprise',
-        component: () => import('@/views/table/index'),
+        component: () => import('@/views/record/Enterprise'),
         meta: {
           title: 'Enterprise',
           icon: 'tree'
