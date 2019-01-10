@@ -4,7 +4,7 @@
       <el-col :span="12">
         <el-card class="box-card2" shadow="never" :body-style="{ padding: '10px' }">
           <div slot="header" class="clearfix">
-            <span>终端在线数(个)</span>
+            <span>集中器在线数(个)</span>
           </div>
           <div class="text item">
             1
@@ -14,7 +14,7 @@
       <el-col :span="12">
         <el-card class="box-card2" shadow="never" :body-style="{ padding: '10px' }">
           <div slot="header" class="clearfix">
-            <span>终端数量(个)</span>
+            <span>集中器数量(个)</span>
           </div>
           <div class="text item">
             6
@@ -36,7 +36,7 @@
       <el-col :span="12">
         <el-card class="box-card2" shadow="never" :body-style="{ padding: '10px' }">
           <div slot="header" class="clearfix">
-            <span>计量点数量(个)</span>
+            <span>断路器数量(个)</span>
           </div>
           <div class="text item">
             19

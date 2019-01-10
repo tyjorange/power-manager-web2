@@ -61,7 +61,7 @@ export const constantRouterMap = [{
     children: [{
         path: '/realData',
         name: 'RealData',
-        component: () => import('@/views/table/index'),
+        component: () => import('@/views/monitor/realdata/index'),
         meta: {
           title: 'RealData',
           icon: 'table'

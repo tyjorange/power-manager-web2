@@ -82,6 +82,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .navbar {
+  background-color: #eee;
   height: 50px;
   line-height: 50px;
   border-radius: 0px !important;

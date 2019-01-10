@@ -38,10 +38,8 @@ export function parseTime(time, cFormat) {
 }
 
 export function formatTime(time, option) {
-  time = +time * 1000
-  const d = new Date(time)
+  const d = new Date(+time)
   const now = Date.now()
-
   const diff = (now - d) / 1000
 
   if (diff < 30) {
@@ -58,8 +56,9 @@ export function formatTime(time, option) {
     return parseTime(time, option)
   } else {
     return (
-      d.getMonth() +
-      1 +
+      d.getFullYear() +
+      '年' +
+      (d.getMonth() + 1) +
       '月' +
       d.getDate() +
       '日' +

@@ -56,16 +56,16 @@ service.interceptors.response.use(
         type: 'error',
         duration: 5 * 1000
       })
-      return Promise.reject('error 403')
+      return Promise.reject('code 403')
     } else if (res.code === 401) {
       Message({
         message: res.msg,
         type: 'error',
         duration: 5 * 1000
       })
-      return Promise.reject('error 401')
+      return Promise.reject('code 401')
     } else {
-      if (res.code !== 0)
+      if (res.code !== 0 & res.code !== 2 & res.code !== 4 & res.code !== 5)
         Message({
           message: res.msg,
           type: 'success',
