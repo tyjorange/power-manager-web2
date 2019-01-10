@@ -99,7 +99,7 @@ export default {
   data() {
     return {
       tableData: [],
-      activeNames: "",
+      activeNames: "col1",
       checkAll1: false,
       checkAll2: false,
       checkAll3: false,
