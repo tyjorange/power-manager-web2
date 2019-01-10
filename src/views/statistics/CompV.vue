@@ -261,7 +261,7 @@ export default {
                 },
                 itemStyle:{
                     normal:{
-                        color:'#87CEFF'
+                        color:'#63B8FF'
                     }
                 },
             }
