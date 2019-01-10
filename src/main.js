@@ -23,6 +23,11 @@ Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 })
 
+//引入echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+Vue.use(echarts)
+
 Vue.config.productionTip = false
 
 new Vue({
