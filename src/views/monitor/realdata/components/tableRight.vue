@@ -7,7 +7,7 @@
         </el-cascader>
       </el-form-item>
       <el-form-item>
-        <el-select v-model="value2" placeholder="能源类别" clearable>
+        <el-select v-model="value1" placeholder="能源类别" clearable>
           <el-option v-for="item in opt2" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
@@ -65,8 +65,7 @@ export default {
           label: "蒸汽"
         }
       ],
-      value1: "",
-      value2: "1",
+      value1: "1",
       input1: "",
       selectedOptions2: ["1", "49F1B86B7F0B42CE9BE7013DE4FDA383"]
     };

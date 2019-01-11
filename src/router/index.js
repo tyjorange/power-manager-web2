@@ -70,7 +70,7 @@ export const constantRouterMap = [{
       {
         path: '/hisData',
         name: 'HisData',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/monitor/hisdata/index'),
         meta: {
           title: 'HisData',
           icon: 'nested'

@@ -4,6 +4,15 @@
       <el-collapse v-model="activeNames">
         <el-collapse-item title="数据项" name="col1">
           <template>
+            <el-form-item>
+              时间范围：
+            </el-form-item>
+            <div class="block">
+              <el-date-picker v-model="value5" type="datetimerange" :picker-options="pickerOptions2" range-separator="至"
+                start-placeholder="开始日期" end-placeholder="结束日期" align="left" size="mini">
+              </el-date-picker>
+            </div>
+
             <el-checkbox :indeterminate="isIndeterminate1" v-model="checkAll1" @change="handleCheckAllChange1">电量：</el-checkbox>
             <el-checkbox-group v-model="checkedItem1" @change="handleCheckedItemChange1" size="mini">
               <el-checkbox v-for="item in Items1" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
@@ -33,7 +42,7 @@
               </el-radio-group>
             </template>
           </el-form-item>
-          <el-form-item>
+          <!-- <el-form-item>
             断路器上报状态：
           </el-form-item>
           <el-form-item>
@@ -44,7 +53,7 @@
                 <el-radio :label="6" border>实时上报</el-radio>
               </el-radio-group>
             </template>
-          </el-form-item>
+          </el-form-item> -->
         </el-collapse-item>
       </el-collapse>
       <el-button-group class="groupbt">
@@ -94,10 +103,51 @@ const itemOptions3 = [
   { id: "dy", name: "电压" },
   { id: "pl", name: "频率" },
   { id: "wd", name: "温度" }
-]; //, "电压", "频率", "温度", "功率因数"
+];
 export default {
   data() {
     return {
+      pickerOptions2: {
+        shortcuts: [
+          {
+            text: "最近一天",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+      value5: "",
       tableData: [],
       activeNames: "col1",
       checkAll1: false,
@@ -242,6 +292,9 @@ export default {
 div {
   margin: 3px;
   margin-right: 0px;
+}
+.block {
+  margin: 0px;
 }
 .el-form-item {
   margin: 0px;
