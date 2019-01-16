@@ -83,12 +83,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.$store.getters.checkedItem1);
-      console.log(this.$store.getters.checkedItem2);
-      console.log(this.$store.getters.checkedItem3);
-      console.log(this.$store.getters.radio1);
-      console.log(this.$store.getters.radio2);
-      console.log(this.$store.getters.switchs);
+      // console.log(this.$store.getters.checkedItem1);
+      // console.log(this.$store.getters.checkedItem2);
+      // console.log(this.$store.getters.checkedItem3);
+      // console.log(this.$store.getters.radio1);
+      // console.log(this.$store.getters.radio2);
+      // console.log(this.$store.getters.switchs);
     },
     init() {
       API_GetCollectors(this.$store.getters.token)

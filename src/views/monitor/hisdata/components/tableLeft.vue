@@ -8,23 +8,23 @@
               时间范围：
             </el-form-item>
             <div class="block">
-              <el-date-picker v-model="value5" type="datetimerange" :picker-options="pickerOptions2" range-separator="至"
+              <el-date-picker v-model="timeValue" type="datetimerange" :picker-options="pickerOptions2" range-separator="至"
                 start-placeholder="开始日期" end-placeholder="结束日期" align="left" size="mini">
               </el-date-picker>
             </div>
 
             <el-checkbox :indeterminate="isIndeterminate1" v-model="checkAll1" @change="handleCheckAllChange1">电量：</el-checkbox>
-            <el-checkbox-group v-model="checkedItem1" @change="handleCheckedItemChange1" size="mini">
+            <el-checkbox-group v-model="checkedItem1" size="mini" @change="handleCheckAllChange1">
               <el-checkbox v-for="item in Items1" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
 
             <el-checkbox :indeterminate="isIndeterminate2" v-model="checkAll2" @change="handleCheckAllChange2">功率：</el-checkbox>
-            <el-checkbox-group v-model="checkedItem2" @change="handleCheckedItemChange2" size="mini">
+            <el-checkbox-group v-model="checkedItem2" size="mini" @change="handleCheckAllChange2">
               <el-checkbox v-for="item in Items2" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
 
             <el-checkbox :indeterminate="isIndeterminate3" v-model="checkAll3" @change="handleCheckAllChange3">其他：</el-checkbox>
-            <el-checkbox-group v-model="checkedItem3" @change="handleCheckedItemChange3" size="mini">
+            <el-checkbox-group v-model="checkedItem3" size="mini" @change="handleCheckAllChange3">
               <el-checkbox v-for="item in Items3" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
           </template>
@@ -63,23 +63,16 @@
       <el-table :data="tableData" style="width: 100%" size="small" border stripe highlight-current-row>
         <el-table-column type="index">
         </el-table-column>
-        <el-table-column prop="switchName" label="断路器" sortable>
+        <el-table-column prop="switchName" label="断路器" sortable width="120">
         </el-table-column>
-        <el-table-column prop="collectorName" label="集中器" min-width="120" sortable>
+        <el-table-column prop="collectorName" label="集中器" sortable width="120">
         </el-table-column>
-        <el-table-column prop="signalsTypeName" label="数据项" sortable>
+        <el-table-column prop="dataTime" label="采集时间" :formatter="cellRender" sortable width="150">
         </el-table-column>
-        <el-table-column prop="fl" label="费率" min-width="30">
-        </el-table-column>
-        <el-table-column prop="bl" label="倍率" min-width="30">
-        </el-table-column>
-        <el-table-column prop="dataValue" label="数据值" sortable>
-        </el-table-column>
-        <el-table-column prop="dataUnit" label="计量单位">
-        </el-table-column>
-        <el-table-column prop="dataLoop" label="采集周期">
-        </el-table-column>
-        <el-table-column prop="dataTime" label="最新采集时间" :formatter="cellRender" min-width="100" sortable>
+        <el-table-column v-for="item in formThead" :prop="item.id" :key="item.id" :label="item.name">
+          <!-- <template slot-scope="scope">
+            {{ scope.row[item] }}
+          </template> -->
         </el-table-column>
       </el-table>
     </el-form>
@@ -87,7 +80,7 @@
 </template>
 
 <script>
-import { API_GetSignals } from "@/api/monitor/realdata";
+import { API_GetSignalsHis } from "@/api/monitor/hisdata";
 import { formatTime } from "@/utils/index";
 const itemOptions1 = [
   { id: "wgdl", name: "无功电量" },
@@ -147,18 +140,19 @@ export default {
           }
         ]
       },
-      value5: "",
+      timeValue: [new Date(Date.now() - 3600 * 1000 * 24 * 1), new Date()],
       tableData: [],
       activeNames: "col1",
-      checkAll1: false,
+      checkAll1: true,
       checkAll2: false,
       checkAll3: false,
-      checkedItem1: [itemOptions1[0]],
-      checkedItem2: [itemOptions2[0]],
-      checkedItem3: [itemOptions3[0]],
-      isIndeterminate1: true,
-      isIndeterminate2: true,
-      isIndeterminate3: true,
+      formThead: itemOptions1,
+      checkedItem1: itemOptions1,
+      checkedItem2: [],
+      checkedItem3: [],
+      isIndeterminate1: false,
+      isIndeterminate2: false,
+      isIndeterminate3: false,
       Items1: itemOptions1,
       Items2: itemOptions2,
       Items3: itemOptions3,
@@ -205,11 +199,12 @@ export default {
     listenSwitchs: {
       deep: true,
       handler(val) {
-        API_GetSignals(
+        API_GetSignalsHis(
           val,
           this.$store.getters.checkedItem1,
           this.$store.getters.checkedItem2,
-          this.$store.getters.checkedItem3
+          this.$store.getters.checkedItem3,
+          this.timeValue
         )
           .then(response => {
             this.tableData = response.data; // 监听右表变化更新左表值
@@ -238,13 +233,22 @@ export default {
       console.log(this.$store.getters.radio1);
       console.log(this.$store.getters.radio2);
       console.log(this.$store.getters.switchs);
-      API_GetSignals(
+      API_GetSignalsHis(
         this.$store.getters.switchs,
         this.$store.getters.checkedItem1,
         this.$store.getters.checkedItem2,
-        this.$store.getters.checkedItem3
+        this.$store.getters.checkedItem3,
+        this.timeValue
       )
         .then(response => {
+          //切换表头
+          if (this.checkAll1) {
+            this.formThead = itemOptions1;
+          } else if (this.checkAll2) {
+            this.formThead = itemOptions2;
+          } else if (this.checkAll3) {
+            this.formThead = itemOptions3;
+          }
           this.tableData = response.data; // 手动更新左表值
         })
         .catch(error => {
@@ -254,32 +258,47 @@ export default {
     handleCheckAllChange1(val) {
       this.checkedItem1 = val ? itemOptions1 : [];
       this.isIndeterminate1 = false;
+      if (this.checkAll1 === false) {
+        this.checkAll1 = true;
+      }
+      if (val) {
+        this.checkedItem2 = [];
+        this.checkAll2 = false;
+        this.isIndeterminate2 = false;
+        this.checkedItem3 = [];
+        this.checkAll3 = false;
+        this.isIndeterminate3 = false;
+      }
     },
     handleCheckAllChange2(val) {
       this.checkedItem2 = val ? itemOptions2 : [];
       this.isIndeterminate2 = false;
+      if (this.checkAll2 === false) {
+        this.checkAll2 = true;
+      }
+      if (val) {
+        this.checkedItem1 = [];
+        this.checkAll1 = false;
+        this.isIndeterminate1 = false;
+        this.checkedItem3 = [];
+        this.checkAll3 = false;
+        this.isIndeterminate3 = false;
+      }
     },
     handleCheckAllChange3(val) {
       this.checkedItem3 = val ? itemOptions3 : [];
       this.isIndeterminate3 = false;
-    },
-    handleCheckedItemChange1(value) {
-      let checkedCount = value.length;
-      this.checkAll1 = checkedCount === this.Items1.length;
-      this.isIndeterminate1 =
-        checkedCount > 0 && checkedCount < this.Items1.length;
-    },
-    handleCheckedItemChange2(value) {
-      let checkedCount = value.length;
-      this.checkAll2 = checkedCount === this.Items2.length;
-      this.isIndeterminate2 =
-        checkedCount > 0 && checkedCount < this.Items2.length;
-    },
-    handleCheckedItemChange3(value) {
-      let checkedCount = value.length;
-      this.checkAll3 = checkedCount === this.Items3.length;
-      this.isIndeterminate3 =
-        checkedCount > 0 && checkedCount < this.Items3.length;
+      if (this.checkAll3 === false) {
+        this.checkAll3 = true;
+      }
+      if (val) {
+        this.checkedItem1 = [];
+        this.checkAll1 = false;
+        this.isIndeterminate1 = false;
+        this.checkedItem2 = [];
+        this.checkAll2 = false;
+        this.isIndeterminate2 = false;
+      }
     },
     cellRender(row, column, cellValue, index) {
       return formatTime(cellValue);

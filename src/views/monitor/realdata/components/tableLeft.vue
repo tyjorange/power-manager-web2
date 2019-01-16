@@ -100,15 +100,15 @@ export default {
     return {
       tableData: [],
       activeNames: "col1",
-      checkAll1: false,
+      checkAll1: true,
       checkAll2: false,
       checkAll3: false,
-      checkedItem1: [itemOptions1[0]],
-      checkedItem2: [itemOptions2[0]],
-      checkedItem3: [itemOptions3[0]],
-      isIndeterminate1: true,
-      isIndeterminate2: true,
-      isIndeterminate3: true,
+      checkedItem1: [itemOptions1[0], itemOptions1[1]],
+      checkedItem2: [],
+      checkedItem3: [],
+      isIndeterminate1: false,
+      isIndeterminate2: false,
+      isIndeterminate3: false,
       Items1: itemOptions1,
       Items2: itemOptions2,
       Items3: itemOptions3,
@@ -182,12 +182,12 @@ export default {
       this.$store.dispatch("S_SetRD2", this.radio2); // 初始化全局变量
     },
     onSubmit() {
-      console.log(this.$store.getters.checkedItem1);
-      console.log(this.$store.getters.checkedItem2);
-      console.log(this.$store.getters.checkedItem3);
-      console.log(this.$store.getters.radio1);
-      console.log(this.$store.getters.radio2);
-      console.log(this.$store.getters.switchs);
+      // console.log(this.$store.getters.checkedItem1);
+      // console.log(this.$store.getters.checkedItem2);
+      // console.log(this.$store.getters.checkedItem3);
+      // console.log(this.$store.getters.radio1);
+      // console.log(this.$store.getters.radio2);
+      // console.log(this.$store.getters.switchs);
       API_GetSignals(
         this.$store.getters.switchs,
         this.$store.getters.checkedItem1,
