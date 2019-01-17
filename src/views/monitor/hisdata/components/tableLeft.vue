@@ -12,7 +12,20 @@
                 start-placeholder="开始日期" end-placeholder="结束日期" align="left" size="mini">
               </el-date-picker>
             </div>
-
+            <el-form-item>
+              费率类型：
+            </el-form-item>
+            <el-form-item>
+              <template>
+                <el-radio-group v-model="radio1">
+                  <el-radio :label="1" border>总</el-radio>
+                  <el-radio :label="2" border>尖</el-radio>
+                  <el-radio :label="3" border>峰</el-radio>
+                  <el-radio :label="4" border>平</el-radio>
+                  <el-radio :label="5" border>谷</el-radio>
+                </el-radio-group>
+              </template>
+            </el-form-item>
             <el-checkbox :indeterminate="isIndeterminate1" v-model="checkAll1" @change="handleCheckAllChange1">电量：</el-checkbox>
             <el-checkbox-group v-model="checkedItem1" size="mini" @change="handleCheckAllChange1">
               <el-checkbox v-for="item in Items1" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
@@ -28,57 +41,34 @@
               <el-checkbox v-for="item in Items3" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
           </template>
-          <el-form-item>
-            费率类型：
-          </el-form-item>
-          <el-form-item>
-            <template>
-              <el-radio-group v-model="radio1">
-                <el-radio :label="1" border>总</el-radio>
-                <el-radio :label="2" border>尖</el-radio>
-                <el-radio :label="3" border>峰</el-radio>
-                <el-radio :label="4" border>平</el-radio>
-                <el-radio :label="5" border>谷</el-radio>
-              </el-radio-group>
-            </template>
-          </el-form-item>
-          <!-- <el-form-item>
-            断路器上报状态：
-          </el-form-item>
-          <el-form-item>
-            <template>
-              <el-radio-group v-model="radio2">
-                <el-radio :label="8" border>所有</el-radio>
-                <el-radio :label="7" border>未实时上报</el-radio>
-                <el-radio :label="6" border>实时上报</el-radio>
-              </el-radio-group>
-            </template>
-          </el-form-item> -->
         </el-collapse-item>
       </el-collapse>
       <el-button-group class="groupbt">
         <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
         <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
       </el-button-group>
-      <!-- <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="onSubmit" /> -->
-      <el-table v-loading="listLoading" :data="tableData" style="width: 100%" size="small" border stripe
-        highlight-current-row>
+      <el-table v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" style="width: 100%"
+        size="small" border stripe highlight-current-row>
         <el-table-column type="index">
         </el-table-column>
         <el-table-column prop="switchName" label="断路器" sortable width="120">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleOpen(scope.row)">{{ scope.row.switchName }}</span>
+          </template>
         </el-table-column>
         <el-table-column prop="collectorName" label="集中器" sortable width="120">
         </el-table-column>
         <el-table-column prop="dataTime" label="采集时间" :formatter="cellRender" sortable width="180">
         </el-table-column>
         <el-table-column v-for="item in formThead" :prop="item.id" :key="item.id" :label="item.name" align='right'>
-          <!-- <template slot-scope="scope">
-            {{ scope.row[item] }}
-          </template> -->
         </el-table-column>
       </el-table>
       <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="onSubmit" />
     </el-form>
+    <el-dialog title="" :visible.sync="dialogProp.dialogFormVisible">
+      <line-chart-dialog v-bind="dialogProp" />
+    </el-dialog>
   </div>
 </template>
 
@@ -86,6 +76,7 @@
 import { API_GetSignalsHis } from "@/api/monitor/hisdata";
 import { formatTime } from "@/utils/index";
 import Pagination from "@/components/Pagination";
+import lineChartDialog from "./LineChartDialog";
 const itemOptions1 = [
   { id: "wgdl", name: "无功电量" },
   { id: "ygdl", name: "有功电量" }
@@ -102,7 +93,7 @@ const itemOptions3 = [
   { id: "wd", name: "温度" }
 ];
 export default {
-  components: { Pagination },
+  components: { Pagination, lineChartDialog },
   data() {
     return {
       pickerOptions2: {
@@ -167,7 +158,11 @@ export default {
       total: 0,
       listQuery: {
         page: 1,
-        limit: 10
+        limit: 20
+      },
+      dialogProp: {
+        dialogFormVisible: false,
+        tempRow: {}
       }
     };
   },
@@ -210,7 +205,9 @@ export default {
     listenSwitchs: {
       deep: true,
       handler(val) {
-        this.onSubmit(); // 监听右表变化更新左表值
+        if (val.length !== 0) {
+          this.onSubmit(); // 监听右表变化更新左表值
+        }
       }
     }
   },
@@ -254,6 +251,11 @@ export default {
           this.tableData = response.data; // 手动更新左表值
           this.total = response.total;
           this.listLoading = false;
+          if (this.total === 0) {
+            this.activeNames = "col1";
+          } else {
+            this.activeNames = "";
+          }
         })
         .catch(error => {
           console.log(error);
@@ -306,6 +308,21 @@ export default {
     },
     cellRender(row, column, cellValue, index) {
       return formatTime(cellValue);
+    },
+    handleOpen(row) {
+      this.dialogProp.tempRow = Object.assign({}, row); // copy obj
+      // this.temp.timestamp = new Date(this.temp.timestamp);
+      // this.dialogStatus = "update";
+      this.dialogProp.dialogFormVisible = true;
+      // this.$nextTick(() => {
+      //   this.$refs["dataForm"].clearValidate();
+      // });
+    },
+    // 修改table header的背景色
+    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return "background-color: #eee;color: #000;";
+      }
     }
   }
 };
@@ -325,5 +342,13 @@ div {
 .groupbt {
   float: right;
   margin-right: 0px;
+}
+.link-type,
+.link-type:focus {
+  color: #337ab7;
+  cursor: pointer;
+  &:hover {
+    color: rgb(32, 160, 255);
+  }
 }
 </style>

@@ -4,54 +4,54 @@
       <el-collapse v-model="activeNames">
         <el-collapse-item title="数据项" name="col1">
           <template>
+            <el-form-item>
+              断路器上报状态：
+            </el-form-item>
+            <el-form-item>
+              <template>
+                <el-radio-group v-model="radio2">
+                  <el-radio :label="8" border>所有</el-radio>
+                  <el-radio :label="7" border>未实时上报</el-radio>
+                  <el-radio :label="6" border>实时上报</el-radio>
+                </el-radio-group>
+              </template>
+            </el-form-item>
+            <el-form-item>
+              费率类型：
+            </el-form-item>
+            <el-form-item>
+              <template>
+                <el-radio-group v-model="radio1">
+                  <el-radio :label="1" border>总</el-radio>
+                  <el-radio :label="2" border>尖</el-radio>
+                  <el-radio :label="3" border>峰</el-radio>
+                  <el-radio :label="4" border>平</el-radio>
+                  <el-radio :label="5" border>谷</el-radio>
+                </el-radio-group>
+              </template>
+            </el-form-item>
             <el-checkbox :indeterminate="isIndeterminate1" v-model="checkAll1" @change="handleCheckAllChange1">电量：</el-checkbox>
             <el-checkbox-group v-model="checkedItem1" @change="handleCheckedItemChange1" size="mini">
               <el-checkbox v-for="item in Items1" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
-
             <el-checkbox :indeterminate="isIndeterminate2" v-model="checkAll2" @change="handleCheckAllChange2">功率：</el-checkbox>
             <el-checkbox-group v-model="checkedItem2" @change="handleCheckedItemChange2" size="mini">
               <el-checkbox v-for="item in Items2" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
-
             <el-checkbox :indeterminate="isIndeterminate3" v-model="checkAll3" @change="handleCheckAllChange3">其他：</el-checkbox>
             <el-checkbox-group v-model="checkedItem3" @change="handleCheckedItemChange3" size="mini">
               <el-checkbox v-for="item in Items3" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
           </template>
-          <el-form-item>
-            费率类型：
-          </el-form-item>
-          <el-form-item>
-            <template>
-              <el-radio-group v-model="radio1">
-                <el-radio :label="1" border>总</el-radio>
-                <el-radio :label="2" border>尖</el-radio>
-                <el-radio :label="3" border>峰</el-radio>
-                <el-radio :label="4" border>平</el-radio>
-                <el-radio :label="5" border>谷</el-radio>
-              </el-radio-group>
-            </template>
-          </el-form-item>
-          <el-form-item>
-            断路器上报状态：
-          </el-form-item>
-          <el-form-item>
-            <template>
-              <el-radio-group v-model="radio2">
-                <el-radio :label="8" border>所有</el-radio>
-                <el-radio :label="7" border>未实时上报</el-radio>
-                <el-radio :label="6" border>实时上报</el-radio>
-              </el-radio-group>
-            </template>
-          </el-form-item>
         </el-collapse-item>
       </el-collapse>
       <el-button-group class="groupbt">
         <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
         <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
       </el-button-group>
-      <el-table :data="tableData" style="width: 100%" size="small" border stripe highlight-current-row>
+      <el-table v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" style="width: 100%"
+        size="small" border stripe highlight-current-row>
         <el-table-column type="index">
         </el-table-column>
         <el-table-column prop="switchName" label="断路器" sortable>
@@ -113,7 +113,8 @@ export default {
       Items2: itemOptions2,
       Items3: itemOptions3,
       radio1: 1,
-      radio2: 8
+      radio2: 8,
+      listLoading: false
     };
   },
   computed: {
@@ -233,6 +234,12 @@ export default {
     },
     cellRender(row, column, cellValue, index) {
       return formatTime(cellValue);
+    },
+    // 修改table header的背景色
+    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return "background-color: #eee;color: #000;";
+      }
     }
   }
 };
