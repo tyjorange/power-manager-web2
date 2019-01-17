@@ -64,9 +64,9 @@
         </el-table-column>
         <el-table-column prop="bl" label="倍率" min-width="30">
         </el-table-column>
-        <el-table-column prop="dataValue" label="数据值" sortable>
+        <el-table-column prop="dataValue" label="数据值" align='right' sortable>
         </el-table-column>
-        <el-table-column prop="dataUnit" label="计量单位">
+        <el-table-column prop="dataUnit" label="计量单位" align='right'>
         </el-table-column>
         <el-table-column prop="dataLoop" label="采集周期">
         </el-table-column>

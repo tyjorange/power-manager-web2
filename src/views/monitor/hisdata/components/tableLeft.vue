@@ -60,21 +60,24 @@
         <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
         <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
       </el-button-group>
-      <el-table :data="tableData" style="width: 100%" size="small" border stripe highlight-current-row>
+      <!-- <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="onSubmit" /> -->
+      <el-table v-loading="listLoading" :data="tableData" style="width: 100%" size="small" border stripe
+        highlight-current-row>
         <el-table-column type="index">
         </el-table-column>
         <el-table-column prop="switchName" label="断路器" sortable width="120">
         </el-table-column>
         <el-table-column prop="collectorName" label="集中器" sortable width="120">
         </el-table-column>
-        <el-table-column prop="dataTime" label="采集时间" :formatter="cellRender" sortable width="150">
+        <el-table-column prop="dataTime" label="采集时间" :formatter="cellRender" sortable width="180">
         </el-table-column>
-        <el-table-column v-for="item in formThead" :prop="item.id" :key="item.id" :label="item.name">
+        <el-table-column v-for="item in formThead" :prop="item.id" :key="item.id" :label="item.name" align='right'>
           <!-- <template slot-scope="scope">
             {{ scope.row[item] }}
           </template> -->
         </el-table-column>
       </el-table>
+      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="onSubmit" />
     </el-form>
   </div>
 </template>
@@ -82,6 +85,7 @@
 <script>
 import { API_GetSignalsHis } from "@/api/monitor/hisdata";
 import { formatTime } from "@/utils/index";
+import Pagination from "@/components/Pagination";
 const itemOptions1 = [
   { id: "wgdl", name: "无功电量" },
   { id: "ygdl", name: "有功电量" }
@@ -98,6 +102,7 @@ const itemOptions3 = [
   { id: "wd", name: "温度" }
 ];
 export default {
+  components: { Pagination },
   data() {
     return {
       pickerOptions2: {
@@ -157,7 +162,13 @@ export default {
       Items2: itemOptions2,
       Items3: itemOptions3,
       radio1: 1,
-      radio2: 8
+      radio2: 8,
+      listLoading: true,
+      total: 0,
+      listQuery: {
+        page: 1,
+        limit: 10
+      }
     };
   },
   computed: {
@@ -199,19 +210,7 @@ export default {
     listenSwitchs: {
       deep: true,
       handler(val) {
-        API_GetSignalsHis(
-          val,
-          this.$store.getters.checkedItem1,
-          this.$store.getters.checkedItem2,
-          this.$store.getters.checkedItem3,
-          this.timeValue
-        )
-          .then(response => {
-            this.tableData = response.data; // 监听右表变化更新左表值
-          })
-          .catch(error => {
-            console.log(error);
-          });
+        this.onSubmit(); // 监听右表变化更新左表值
       }
     }
   },
@@ -227,18 +226,21 @@ export default {
       this.$store.dispatch("S_SetRD2", this.radio2); // 初始化全局变量
     },
     onSubmit() {
-      console.log(this.$store.getters.checkedItem1);
-      console.log(this.$store.getters.checkedItem2);
-      console.log(this.$store.getters.checkedItem3);
-      console.log(this.$store.getters.radio1);
-      console.log(this.$store.getters.radio2);
-      console.log(this.$store.getters.switchs);
+      this.listLoading = true;
+      // console.log(this.$store.getters.checkedItem1);
+      // console.log(this.$store.getters.checkedItem2);
+      // console.log(this.$store.getters.checkedItem3);
+      // console.log(this.$store.getters.radio1);
+      // console.log(this.$store.getters.radio2);
+      // console.log(this.$store.getters.switchs);
       API_GetSignalsHis(
         this.$store.getters.switchs,
         this.$store.getters.checkedItem1,
         this.$store.getters.checkedItem2,
         this.$store.getters.checkedItem3,
-        this.timeValue
+        this.timeValue,
+        this.listQuery.page,
+        this.listQuery.limit
       )
         .then(response => {
           //切换表头
@@ -250,6 +252,8 @@ export default {
             this.formThead = itemOptions3;
           }
           this.tableData = response.data; // 手动更新左表值
+          this.total = response.total;
+          this.listLoading = false;
         })
         .catch(error => {
           console.log(error);

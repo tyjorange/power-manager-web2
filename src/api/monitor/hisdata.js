@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function API_GetSignalsHis(sw1, array1, array2, array3, strTime) {
+export function API_GetSignalsHis(sw1, array1, array2, array3, strTime, page, limit) {
   var param_1 = "";
   var param_2 = "";
   sw1.forEach(element => {
@@ -22,7 +22,9 @@ export function API_GetSignalsHis(sw1, array1, array2, array3, strTime) {
       param_1,
       param_2,
       startTime: strTime[0].getTime(),
-      endTime: strTime[1].getTime()
+      endTime: strTime[1].getTime(),
+      page,
+      limit
     }
   })
 }
