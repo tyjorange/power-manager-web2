@@ -1,10 +1,12 @@
 <template>
-  <div :class="classObj" class="app-wrapper">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <sidebar class="sidebar-container" />
-    <div class="main-container">
-      <navbar />
-      <app-main />
+  <div class="outer-container">
+    <div :class="classObj" class="app-wrapper">
+      <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+      <sidebar class="sidebar-container" />
+      <div class="main-container">
+        <navbar />
+        <app-main />
+      </div>
     </div>
   </div>
 </template>
@@ -65,5 +67,17 @@ export default {
   height: 100%;
   position: absolute;
   z-index: 999;
+}
+.outer-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.app-wrapper {
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  right: -17px;
 }
 </style>
