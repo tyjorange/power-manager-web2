@@ -43,10 +43,12 @@
           </template>
         </el-collapse-item>
       </el-collapse>
+
       <el-button-group class="groupbt">
         <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
         <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
       </el-button-group>
+
       <el-table v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" style="width: 100%"
         size="small" border stripe highlight-current-row>
@@ -61,13 +63,19 @@
         </el-table-column>
         <el-table-column prop="dataTime" label="采集时间" :formatter="cellRender" sortable width="180">
         </el-table-column>
+        <el-table-column prop="fl" label="费率" width="100">
+          <template slot-scope="scope">
+            总
+          </template>
+        </el-table-column>
         <el-table-column v-for="item in formThead" :prop="item.id" :key="item.id" :label="item.name" align='right'>
         </el-table-column>
       </el-table>
       <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="onSubmit" />
     </el-form>
-    <el-dialog title="" :visible.sync="dialogProp.dialogFormVisible">
-      <line-chart-dialog v-bind="dialogProp" />
+    <el-dialog customClass="customWidth" title="" :visible.sync="dialogProp.dialogFormVisible" width="79%"
+      :before-close="handleClose">
+      <line-chart-dialog v-bind="dialogProp" fullscreen="true" />
     </el-dialog>
   </div>
 </template>
@@ -318,6 +326,9 @@ export default {
       //   this.$refs["dataForm"].clearValidate();
       // });
     },
+    handleClose(done) {
+      done();
+    },
     // 修改table header的背景色
     tableHeaderColor({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
@@ -338,6 +349,9 @@ div {
 }
 .el-form-item {
   margin: 0px;
+}
+.customWidth {
+  margin-top: 0;
 }
 .groupbt {
   float: right;
