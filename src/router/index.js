@@ -256,7 +256,7 @@ export const constantRouterMap = [{
       {
         path: '/rtuManage',
         name: 'RtuManage',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/record/RtuManage'),
         meta: {
           title: 'RtuManage',
           icon: 'tree'
