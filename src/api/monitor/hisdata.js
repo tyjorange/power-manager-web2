@@ -3,9 +3,13 @@ import request from '@/utils/request'
 export function API_GetSignalsHis(sw1, array1, array2, array3, strTime, page, limit) {
   var param_1 = "";
   var param_2 = "";
-  sw1.forEach(element => {
-    param_1 += element.switchid + ",";
-  });
+  if (typeof sw1 === "string") {
+    param_1 = sw1
+  } else {
+    sw1.forEach(element => {
+      param_1 += element.switchid + ",";
+    });
+  }
   array1.forEach(element => {
     param_2 += element.id + ",";
   });
