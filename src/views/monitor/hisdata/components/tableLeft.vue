@@ -48,10 +48,9 @@
         <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
         <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
       </el-button-group>
-
       <el-table v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" style="width: 100%"
-        size="small" border stripe highlight-current-row>
+        size="small" border stripe highlight-current-row max-height="670">
         <el-table-column type="index">
         </el-table-column>
         <el-table-column prop="switchName" label="断路器" sortable width="120">

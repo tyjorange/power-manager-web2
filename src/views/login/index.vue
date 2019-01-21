@@ -216,8 +216,9 @@ $light_gray: #eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
   overflow: hidden;
+  background-color: $bg;
+  background: url(../../assets/bg.jpg) no-repeat center center fixed;
   .login-form {
     position: relative;
     width: 520px;
@@ -246,7 +247,8 @@ $light_gray: #eee;
   .title-container {
     position: relative;
     .title {
-      font-size: 26px;
+      -webkit-text-stroke: 0.5px black;
+      font-size: 28px;
       color: $light_gray;
       margin: 0px auto 40px auto;
       text-align: center;
