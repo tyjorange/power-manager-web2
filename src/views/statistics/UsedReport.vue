@@ -1,3 +1,4 @@
+<!-- 能耗周期报表 -->
 <template>
 <section style="padding: 10px;">
   
