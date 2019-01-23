@@ -3,7 +3,7 @@
     <el-form ref="form" size="small" label-width="0px">
       <el-form-item>
         <el-cascader expand-trigger="hover" :options="opt1" v-model="selectedOptions2" @change="handleChange"
-          placeholder="集中器" clearable>
+          placeholder="输入名称搜索集中器/断路器" clearable filterable>
         </el-cascader>
       </el-form-item>
       <el-form-item>
@@ -13,21 +13,8 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-row>
-          <el-col :span="21">
-            <el-input v-model="input1" placeholder="请输入断路器名称" clearable>
-            </el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-button-group class="groupbt">
-              <el-button type="primary" @click="onSubmit">搜索</el-button>
-            </el-button-group>
-          </el-col>
-        </el-row>
-      </el-form-item>
-      <el-form-item>
         <el-table ref="multipleTable" :data="tableData3" style="width: 100%" @selection-change="handleSelectionChange"
-          size="small" border stripe highlight-current-row>
+          :header-cell-style="tableHeaderColor" size="small" border stripe highlight-current-row>
           <el-table-column type="selection" width="39">
           </el-table-column>
           <el-table-column prop="name" label="断路器">
@@ -66,8 +53,7 @@ export default {
         }
       ],
       value1: "1",
-      input1: "",
-      selectedOptions2: ["1", "49F1B86B7F0B42CE9BE7013DE4FDA383"]
+      selectedOptions2: []
     };
   },
   watch: {
@@ -82,14 +68,6 @@ export default {
     this.init();
   },
   methods: {
-    onSubmit() {
-      // console.log(this.$store.getters.checkedItem1);
-      // console.log(this.$store.getters.checkedItem2);
-      // console.log(this.$store.getters.checkedItem3);
-      // console.log(this.$store.getters.radio1);
-      // console.log(this.$store.getters.radio2);
-      // console.log(this.$store.getters.switchs);
-    },
     init() {
       API_GetCollectors(this.$store.getters.token)
         .then(response => {
@@ -112,6 +90,12 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    // 修改table header的背景色
+    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return "background-color: #eee;color: #000;";
+      }
     }
   }
 };

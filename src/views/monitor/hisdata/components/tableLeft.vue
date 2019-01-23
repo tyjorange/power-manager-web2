@@ -3,6 +3,13 @@
     <el-form ref="form" size="mini" label-width="0px">
       <el-collapse v-model="activeNames">
         <el-collapse-item title="数据项" name="col1">
+          <template slot="title">
+            数据选项
+            <el-button-group class="groupbt">
+              <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
+              <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
+            </el-button-group>
+          </template>
           <template>
             <el-form-item>
               时间范围：
@@ -44,10 +51,6 @@
         </el-collapse-item>
       </el-collapse>
 
-      <el-button-group class="groupbt">
-        <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
-        <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
-      </el-button-group>
       <el-table v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" style="width: 100%"
         size="small" border stripe highlight-current-row max-height="670">
@@ -161,7 +164,7 @@ export default {
       Items3: itemOptions3,
       radio1: 1,
       radio2: 8,
-      listLoading: true,
+      listLoading: false,
       total: 0,
       listQuery: {
         page: 1,
@@ -230,43 +233,48 @@ export default {
       this.$store.dispatch("S_SetRD2", this.radio2); // 初始化全局变量
     },
     onSubmit() {
-      this.listLoading = true;
-      // console.log(this.$store.getters.checkedItem1);
-      // console.log(this.$store.getters.checkedItem2);
-      // console.log(this.$store.getters.checkedItem3);
-      // console.log(this.$store.getters.radio1);
-      // console.log(this.$store.getters.radio2);
-      // console.log(this.$store.getters.switchs);
-      API_GetSignalsHis(
-        this.$store.getters.switchs,
-        this.$store.getters.checkedItem1,
-        this.$store.getters.checkedItem2,
-        this.$store.getters.checkedItem3,
-        this.timeValue,
-        this.listQuery.page,
-        this.listQuery.limit
-      )
-        .then(response => {
-          //切换表头
-          if (this.checkAll1) {
-            this.formThead = itemOptions1;
-          } else if (this.checkAll2) {
-            this.formThead = itemOptions2;
-          } else if (this.checkAll3) {
-            this.formThead = itemOptions3;
-          }
-          this.tableData = response.data; // 手动更新左表值
-          this.total = response.total;
-          this.listLoading = false;
-          if (this.total === 0) {
-            this.activeNames = "col1";
-          } else {
-            this.activeNames = "";
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (this.listLoading) {
+        this.activeNames = "col1";
+        console.log("Loading...");
+      } else {
+        this.listLoading = true;
+        // console.log(this.$store.getters.checkedItem1);
+        // console.log(this.$store.getters.checkedItem2);
+        // console.log(this.$store.getters.checkedItem3);
+        // console.log(this.$store.getters.radio1);
+        // console.log(this.$store.getters.radio2);
+        // console.log(this.$store.getters.switchs);
+        API_GetSignalsHis(
+          this.$store.getters.switchs,
+          this.$store.getters.checkedItem1,
+          this.$store.getters.checkedItem2,
+          this.$store.getters.checkedItem3,
+          this.timeValue,
+          this.listQuery.page,
+          this.listQuery.limit
+        )
+          .then(response => {
+            //切换表头
+            if (this.checkAll1) {
+              this.formThead = itemOptions1;
+            } else if (this.checkAll2) {
+              this.formThead = itemOptions2;
+            } else if (this.checkAll3) {
+              this.formThead = itemOptions3;
+            }
+            this.tableData = response.data; // 手动更新左表值
+            this.total = response.total;
+            this.listLoading = false;
+            if (this.total === 0) {
+              this.activeNames = "col1";
+            } else {
+              this.activeNames = "";
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
     handleCheckAllChange1(val) {
       this.checkedItem1 = val ? itemOptions1 : [];
@@ -354,7 +362,12 @@ div {
 }
 .groupbt {
   float: right;
-  margin-right: 0px;
+  margin-right: 5px;
+  margin-top: 10px;
+}
+.el-table {
+  width: 100%;
+  margin-top: 10px;
 }
 .link-type,
 .link-type:focus {

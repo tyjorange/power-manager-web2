@@ -3,6 +3,13 @@
     <el-form ref="form" size="mini" label-width="0px">
       <el-collapse v-model="activeNames">
         <el-collapse-item title="数据项" name="col1">
+          <template slot="title">
+            数据选项
+            <el-button-group class="groupbt">
+              <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
+              <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
+            </el-button-group>
+          </template>
           <template>
             <el-form-item>
               断路器上报状态：
@@ -45,13 +52,10 @@
           </template>
         </el-collapse-item>
       </el-collapse>
-      <el-button-group class="groupbt">
-        <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
-        <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
-      </el-button-group>
+
       <el-table v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" style="width: 100%"
-        size="small" border stripe highlight-current-row>
+        element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" size="small"
+        border stripe highlight-current-row>
         <el-table-column type="index">
         </el-table-column>
         <el-table-column prop="switchName" label="断路器" sortable>
@@ -94,7 +98,7 @@ const itemOptions3 = [
   { id: "dy", name: "电压" },
   { id: "pl", name: "频率" },
   { id: "wd", name: "温度" }
-]; //, "电压", "频率", "温度", "功率因数"
+];
 export default {
   data() {
     return {
@@ -183,24 +187,36 @@ export default {
       this.$store.dispatch("S_SetRD2", this.radio2); // 初始化全局变量
     },
     onSubmit() {
-      // console.log(this.$store.getters.checkedItem1);
-      // console.log(this.$store.getters.checkedItem2);
-      // console.log(this.$store.getters.checkedItem3);
-      // console.log(this.$store.getters.radio1);
-      // console.log(this.$store.getters.radio2);
-      // console.log(this.$store.getters.switchs);
-      API_GetSignals(
-        this.$store.getters.switchs,
-        this.$store.getters.checkedItem1,
-        this.$store.getters.checkedItem2,
-        this.$store.getters.checkedItem3
-      )
-        .then(response => {
-          this.tableData = response.data; // 手动更新左表值
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (this.listLoading) {
+        this.activeNames = "col1";
+        console.log("Loading...");
+      } else {
+        this.listLoading = true;
+        // console.log(this.$store.getters.checkedItem1);
+        // console.log(this.$store.getters.checkedItem2);
+        // console.log(this.$store.getters.checkedItem3);
+        // console.log(this.$store.getters.radio1);
+        // console.log(this.$store.getters.radio2);
+        // console.log(this.$store.getters.switchs);
+        API_GetSignals(
+          this.$store.getters.switchs,
+          this.$store.getters.checkedItem1,
+          this.$store.getters.checkedItem2,
+          this.$store.getters.checkedItem3
+        )
+          .then(response => {
+            this.tableData = response.data; // 手动更新左表值
+            this.listLoading = false;
+            if (this.total === 0) {
+              this.activeNames = "col1";
+            } else {
+              this.activeNames = "col1";
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
     handleCheckAllChange1(val) {
       this.checkedItem1 = val ? itemOptions1 : [];
@@ -255,6 +271,11 @@ div {
 }
 .groupbt {
   float: right;
-  margin-right: 0px;
+  margin-right: 5px;
+  margin-top: 10px;
+}
+.el-table {
+  width: 100%;
+  margin-top: 12px;
 }
 </style>

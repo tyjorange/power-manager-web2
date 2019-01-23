@@ -3,6 +3,13 @@
     <el-form ref="form" size="mini" label-width="0px">
       <el-collapse v-model="activeNames">
         <el-collapse-item title="数据项" name="col1">
+          <template slot="title">
+            数据选项
+            <el-button-group class="groupbt">
+              <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
+              <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
+            </el-button-group>
+          </template>
           <template>
             <el-form-item>
               时间范围：
@@ -29,10 +36,6 @@
           </template>
         </el-collapse-item>
       </el-collapse>
-      <el-button-group class="groupbt">
-        <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
-        <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
-      </el-button-group>
 
       <div id="lineChart" :style="{height:mHeight,width:mWidth}" />
 
@@ -293,38 +296,43 @@ export default {
       this.onSubmit();
     },
     onSubmit() {
-      this.listLoading = true;
-      API_GetSignalsHis(
-        this.tempRow.switchID,
-        this.checkedItem1,
-        this.checkedItem2,
-        this.checkedItem3,
-        this.timeValue,
-        this.listQuery.page,
-        this.listQuery.limit
-      )
-        .then(response => {
-          //切换表头
-          if (this.checkAll1) {
-            this.formThead = itemOptions1;
-          } else if (this.checkAll2) {
-            this.formThead = itemOptions2;
-          } else if (this.checkAll3) {
-            this.formThead = itemOptions3;
-          }
-          this.tableData = response.data; // 手动更新左表值
-          this.reloadChart(response.data);
-          this.total = response.total;
-          this.listLoading = false;
-          if (this.total === 0) {
-            this.activeNames = "col1";
-          } else {
-            this.activeNames = "";
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (this.listLoading) {
+        this.activeNames = "col1";
+        console.log("Loading...");
+      } else {
+        this.listLoading = true;
+        API_GetSignalsHis(
+          this.tempRow.switchID,
+          this.checkedItem1,
+          this.checkedItem2,
+          this.checkedItem3,
+          this.timeValue,
+          this.listQuery.page,
+          this.listQuery.limit
+        )
+          .then(response => {
+            //切换表头
+            if (this.checkAll1) {
+              this.formThead = itemOptions1;
+            } else if (this.checkAll2) {
+              this.formThead = itemOptions2;
+            } else if (this.checkAll3) {
+              this.formThead = itemOptions3;
+            }
+            this.tableData = response.data; // 手动更新左表值
+            this.reloadChart(response.data);
+            this.total = response.total;
+            this.listLoading = false;
+            if (this.total === 0) {
+              this.activeNames = "col1";
+            } else {
+              this.activeNames = "";
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
     handleCheckAllChange1(val) {
       this.checkedItem1 = val ? itemOptions1 : [];
@@ -441,6 +449,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .groupbt {
-  margin-left: 92%;
+  float: right;
+  margin-right: 5px;
+  margin-top: 10px;
+}
+.el-table {
+  width: 100%;
+  margin-top: 10px;
 }
 </style>
