@@ -79,7 +79,7 @@ export const constantRouterMap = [{
       {
         path: '/pointUsed',
         name: 'PointUsed',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/monitor/pointused/index'),
         meta: {
           title: 'PointUsed',
           icon: 'edit'
