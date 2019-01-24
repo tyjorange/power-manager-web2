@@ -1,9 +1,18 @@
 import request from '@/utils/request'
 
-export function getList(params) {
+export function getList() {
+  var param_1 = "";
+  var param_2 = "";
+  var startTime = "";
+  var startTime = "";
   return request({
-    url: '/table/list',
+    url: '/get/point_used',
     method: 'get',
-    params
+    params: {
+      param_1,
+      param_2,
+      startTime,
+      endTime,
+    }
   })
 }

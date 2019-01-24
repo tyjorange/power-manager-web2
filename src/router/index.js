@@ -238,7 +238,7 @@ export const constantRouterMap = [{
     children: [{
         path: '/enterprise',
         name: 'Enterprise',
-        component: () => import('@/views/record/Enterprise'),
+        component: () => import('@/views/record/enterprise/index'),
         meta: {
           title: 'Enterprise',
           icon: 'tree'
@@ -256,7 +256,7 @@ export const constantRouterMap = [{
       {
         path: '/rtuManage',
         name: 'RtuManage',
-        component: () => import('@/views/record/RtuManage'),
+        component: () => import('@/views/record/rtumanage/index'),
         meta: {
           title: 'RtuManage',
           icon: 'tree'
@@ -265,7 +265,7 @@ export const constantRouterMap = [{
       {
         path: '/balanceFormula',
         name: 'BalanceFormula',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/record/balanceformula/index'),
         meta: {
           title: 'BalanceFormula',
           icon: 'tree'
@@ -274,7 +274,7 @@ export const constantRouterMap = [{
       {
         path: '/alarmParam',
         name: 'AlarmParam',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/record/alarmparameter/index'),
         meta: {
           title: 'AlarmParam',
           icon: 'tree'
@@ -296,7 +296,7 @@ export const constantRouterMap = [{
     children: [{
       path: '/accountManageInit',
       name: 'AccountManageInit',
-      component: () => import('@/views/table/index'),
+      component: () => import('@/views/websystem/accountmanage/index'),
       meta: {
         title: 'AccountManageInit',
         icon: 'people'
