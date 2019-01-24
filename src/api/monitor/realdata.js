@@ -20,6 +20,16 @@ export function API_GetSwitchs(collectorId) {
   })
 }
 
+export function API_getAllSwitchs(token) {
+  return request({
+    url: '/get/allSwitchs',
+    method: 'get',
+    params: {
+      token
+    }
+  })
+}
+
 export function API_GetSignals(sw1, array1, array2, array3) {
   var param_1 = "";
   var param_2 = "";

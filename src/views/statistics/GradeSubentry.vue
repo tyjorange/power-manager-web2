@@ -67,7 +67,7 @@
   </el-col>
   <el-table :data="tableData" style="width: 100%; margin-top: 20px" stripe border
     highlight-current-row align="center" show-summary :summary-method="getSummaries">
-    <el-table-column type="index">
+    <el-table-column type="index" label="序号" width="50">
     </el-table-column>
     <el-table-column label="用能单元" prop="collectorName" key="collectorName" width="300" style="height:50px">
     </el-table-column>

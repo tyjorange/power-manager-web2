@@ -247,7 +247,7 @@ export const constantRouterMap = [{
       {
         path: '/energyStructure',
         name: 'EnergyStructure',
-        component: () => import('@/views/record/EnergyStructure'),
+        component: () => import('@/views/record/energyStructure/index'),
         meta: {
           title: 'EnergyStructure',
           icon: 'tree'
