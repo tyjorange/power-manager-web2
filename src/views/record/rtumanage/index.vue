@@ -18,7 +18,7 @@
       </div>
     </el-col>
 
-    <el-table :data="tableData" border stripe highlight-current-row stripe style="width: 100%;" :header-cell-style="tableHeaderColor"
+    <el-table :data="tableData" border stripe highlight-current-row style="width: 100%;" :header-cell-style="tableHeaderColor"
       size="mini" v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.1)">
       <el-table-column label="终端名称">

@@ -1,15 +1,9 @@
 <template>
   <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane label="今年" name="t1">
-      <!-- <div id="myChart1" :style="{height:height,width:width}" /> -->
-    </el-tab-pane>
-    <el-tab-pane label="当月" name="t2">
-      <!-- <div id="myChart2" :style="{height:height,width:width}" /> -->
-    </el-tab-pane>
-    <el-tab-pane label="昨日" name="t3">
-      <!-- <div id="myChart3" :style="{height:height,width:width}" /> -->
-    </el-tab-pane>
-    <div id="pieChart1" :style="{height:height,width:width}" />
+    <el-tab-pane label="今年" name="t1"></el-tab-pane>
+    <el-tab-pane label="当月" name="t2"></el-tab-pane>
+    <el-tab-pane label="昨日" name="t3"></el-tab-pane>
+    <div id="pieChart1" :style="{height:height,width:width}"/>
   </el-tabs>
 </template>
 
@@ -17,6 +11,7 @@
 import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import { debounce } from "@/utils";
+import { API_GetPieChartData } from "@/api/dashboard";
 const demoChartData = {
   t1: [
     { value: 320, name: "动力" },
@@ -60,11 +55,6 @@ export default {
       type: String,
       default: "300px"
     }
-    // chartData: {
-    //   type: Object,
-    //   default: () => demoChartData,
-    //   required: true
-    // }
   },
   data() {
     return {
@@ -83,10 +73,7 @@ export default {
   },
   mounted() {
     this.chart = echarts.init(document.getElementById("pieChart1"), "macarons");
-    this.setData(this.chartData);
-    //this.initChart1();
-    //this.initChart2();
-    //this.initChart3();
+    this.getChartData("t3");
     this.__resizeHandler = debounce(() => {
       if (this.chart) {
         this.chart.resize();
@@ -139,7 +126,23 @@ export default {
       });
     },
     handleClick(tab, event) {
-      this.chartData = demoChartData[tab.paneName];
+      this.getChartData(tab.paneName);
+    },
+    getChartData(type) {
+      const loading = this.$loading({
+        text: "查询中",
+        background: "rgba(0, 0, 0, 0.1)",
+        target: document.querySelector(".component-item")
+      });
+      API_GetPieChartData(new Date(), type)
+        .then(Response => {
+          this.chartData = demoChartData[type];
+          this.setData(this.chartData);
+          loading.close();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };

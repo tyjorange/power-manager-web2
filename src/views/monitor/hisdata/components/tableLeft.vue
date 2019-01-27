@@ -3,25 +3,27 @@
     <el-form ref="form" size="mini" label-width="0px">
       <el-collapse v-model="activeNames">
         <el-collapse-item title="数据项" name="col1">
-          <template slot="title">
-            数据选项
+          <template slot="title">数据选项
             <el-button-group class="groupbt">
               <el-button type="primary" size="mini" @click="onSubmit">刷新</el-button>
               <el-button type="primary" size="mini" @click="onSubmit">导出</el-button>
             </el-button-group>
           </template>
           <template>
-            <el-form-item>
-              时间范围：
-            </el-form-item>
+            <el-form-item>时间范围：</el-form-item>
             <div class="block">
-              <el-date-picker v-model="timeValue" type="datetimerange" :picker-options="pickerOptions2" range-separator="至"
-                start-placeholder="开始日期" end-placeholder="结束日期" align="left" size="mini">
-              </el-date-picker>
+              <el-date-picker
+                v-model="timeValue"
+                type="datetimerange"
+                :picker-options="pickerOptions2"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                align="left"
+                size="mini"
+              ></el-date-picker>
             </div>
-            <el-form-item>
-              费率类型：
-            </el-form-item>
+            <el-form-item>费率类型：</el-form-item>
             <el-form-item>
               <template>
                 <el-radio-group v-model="radio1">
@@ -33,17 +35,29 @@
                 </el-radio-group>
               </template>
             </el-form-item>
-            <el-checkbox :indeterminate="isIndeterminate1" v-model="checkAll1" @change="handleCheckAllChange1">电量：</el-checkbox>
+            <el-checkbox
+              :indeterminate="isIndeterminate1"
+              v-model="checkAll1"
+              @change="handleCheckAllChange1"
+            >电量：</el-checkbox>
             <el-checkbox-group v-model="checkedItem1" size="mini" @change="handleCheckAllChange1">
               <el-checkbox v-for="item in Items1" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
 
-            <el-checkbox :indeterminate="isIndeterminate2" v-model="checkAll2" @change="handleCheckAllChange2">功率：</el-checkbox>
+            <el-checkbox
+              :indeterminate="isIndeterminate2"
+              v-model="checkAll2"
+              @change="handleCheckAllChange2"
+            >功率：</el-checkbox>
             <el-checkbox-group v-model="checkedItem2" size="mini" @change="handleCheckAllChange2">
               <el-checkbox v-for="item in Items2" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
 
-            <el-checkbox :indeterminate="isIndeterminate3" v-model="checkAll3" @change="handleCheckAllChange3">其他：</el-checkbox>
+            <el-checkbox
+              :indeterminate="isIndeterminate3"
+              v-model="checkAll3"
+              @change="handleCheckAllChange3"
+            >其他：</el-checkbox>
             <el-checkbox-group v-model="checkedItem3" size="mini" @change="handleCheckAllChange3">
               <el-checkbox v-for="item in Items3" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
             </el-checkbox-group>
@@ -51,33 +65,55 @@
         </el-collapse-item>
       </el-collapse>
 
-      <el-table v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" style="width: 100%"
-        size="small" border stripe highlight-current-row max-height="670">
-        <el-table-column type="index">
-        </el-table-column>
+      <el-table
+        v-loading="listLoading"
+        element-loading-text="加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.1)"
+        :header-cell-style="tableHeaderColor"
+        :data="tableData"
+        style="width: 100%"
+        size="small"
+        border
+        stripe
+        highlight-current-row
+        max-height="670"
+      >
+        <el-table-column type="index"></el-table-column>
         <el-table-column prop="switchName" label="断路器" sortable width="120">
           <template slot-scope="scope">
             <span class="link-type" @click="handleOpen(scope.row)">{{ scope.row.switchName }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="collectorName" label="集中器" sortable width="120">
-        </el-table-column>
-        <el-table-column prop="dataTime" label="采集时间" :formatter="cellRender" sortable width="180">
-        </el-table-column>
+        <el-table-column prop="collectorName" label="集中器" sortable width="120"></el-table-column>
+        <el-table-column prop="dataTime" label="采集时间" :formatter="cellRender" sortable width="180"></el-table-column>
         <el-table-column prop="fl" label="费率" width="100">
-          <template slot-scope="scope">
-            总
-          </template>
+          <template slot-scope="scope">总</template>
         </el-table-column>
-        <el-table-column v-for="item in formThead" :prop="item.id" :key="item.id" :label="item.name" align='right'>
-        </el-table-column>
+        <el-table-column
+          v-for="item in formThead"
+          :prop="item.id"
+          :key="item.id"
+          :label="item.name"
+          align="right"
+        ></el-table-column>
       </el-table>
-      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="onSubmit" />
+      <pagination
+        v-show="total>0"
+        :total="total"
+        :page.sync="listQuery.page"
+        :limit.sync="listQuery.limit"
+        @pagination="onSubmit"
+      />
     </el-form>
-    <el-dialog customClass="customWidth" title="" :visible.sync="dialogProp.dialogFormVisible" width="79%"
-      :before-close="handleClose">
-      <line-chart-dialog v-bind="dialogProp" fullscreen="true" />
+    <el-dialog
+      customClass="customWidth"
+      title
+      :visible.sync="dialogProp.dialogFormVisible"
+      width="79%"
+      :before-close="handleClose"
+    >
+      <line-chart-dialog v-bind="dialogProp" fullscreen="true"/>
     </el-dialog>
   </div>
 </template>
