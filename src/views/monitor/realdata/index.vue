@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import tableLeft from "./components/tableLeft";
-import tableRight from "@/views/monitor/tableRight";
+import tableLeft from './components/tableLeft'
+import tableRight from '@/views/monitor/tableRight'
 export default {
   components: { tableLeft, tableRight }
-};
+}
 </script>
 
 <style lang="scss" scoped>

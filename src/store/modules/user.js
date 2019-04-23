@@ -80,7 +80,7 @@ const user = {
       return new Promise((resolve, reject) => {
         API_GetUserInfo(state.token).then(response => {
           if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
-            //reject('error response data')
+            // reject('error response data')
           }
           const data = response.data
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组

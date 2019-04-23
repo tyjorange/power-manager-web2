@@ -1,5 +1,5 @@
 <template>
-  <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
+  <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
     <el-tab-pane label="逐时" name="t1">
       <!-- <div id="myChart1" :style="{height:height,width:width}" /> -->
     </el-tab-pane>
@@ -14,103 +14,103 @@
 </template>
 
 <script>
-import echarts from "echarts";
-require("echarts/theme/macarons"); // echarts theme
-import { debounce } from "@/utils";
+import echarts from 'echarts'
+require('echarts/theme/macarons') // echarts theme
+import { debounce } from '@/utils'
 const demoChartData = {
   t1: [79, 52, 321, 443, 112, 234, 432],
   t2: [80, 52, 200, 334, 390, 330, 220],
   t3: [30, 52, 111, 222, 321, 544, 11112]
-};
-const animationDuration = 1500;
+}
+const animationDuration = 1500
 
 export default {
   props: {
     className: {
       type: String,
-      default: "chart"
+      default: 'chart'
     },
     width: {
       type: String,
-      default: "100%"
+      default: '100%'
     },
     height: {
       type: String,
-      default: "300px"
+      default: '300px'
     }
   },
   data() {
     return {
       chart: null,
-      activeName: "t3",
+      activeName: 't3',
       chartData: demoChartData.t3
-    };
+    }
   },
   watch: {
     chartData: {
       deep: true,
       handler(val) {
-        this.setData(val);
+        this.setData(val)
       }
     }
   },
   mounted() {
-    this.chart = echarts.init(document.getElementById("barChart1"), "macarons");
-    this.setData(this.chartData);
+    this.chart = echarts.init(document.getElementById('barChart1'), 'macarons')
+    this.setData(this.chartData)
 
     this.__resizeHandler = debounce(() => {
       if (this.chart) {
-        this.chart.resize();
+        this.chart.resize()
       }
-    }, 100);
-    window.addEventListener("resize", this.__resizeHandler);
+    }, 100)
+    window.addEventListener('resize', this.__resizeHandler)
   },
   beforeDestroy() {
     if (!this.chart) {
-      return;
+      return
     }
-    window.removeEventListener("resize", this.__resizeHandler);
-    this.chart.dispose();
-    this.chart = null;
+    window.removeEventListener('resize', this.__resizeHandler)
+    this.chart.dispose()
+    this.chart = null
   },
   methods: {
     setData(actualData) {
       this.chart.setOption({
         tooltip: {
-          trigger: "axis",
+          trigger: 'axis',
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           }
         },
         grid: {
           top: 30,
-          left: "2%",
-          right: "2%",
-          bottom: "2%",
+          left: '2%',
+          right: '2%',
+          bottom: '2%',
           containLabel: true
         },
         legend: {
-          orient: "horizontal", // 'vertical'
-          x: "center", // 'center' | 'left' | {number},
-          y: "top", // 'center' | 'bottom' | {number}
-          data: ["电力（万千瓦时）"]
+          orient: 'horizontal', // 'vertical'
+          x: 'center', // 'center' | 'left' | {number},
+          y: 'top', // 'center' | 'bottom' | {number}
+          data: ['电力（万千瓦时）']
         },
         toolbox: {
           show: true,
-          right: "2%",
+          right: '2%',
           feature: {
             mark: { show: true },
             dataView: { show: false, readOnly: false },
-            magicType: { show: true, type: ["line", "bar"] },
+            magicType: { show: true, type: ['line', 'bar'] },
             restore: { show: false },
             saveAsImage: { show: true }
           }
         },
         xAxis: [
           {
-            type: "category",
-            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             axisTick: {
               alignWithLabel: true
             }
@@ -118,7 +118,7 @@ export default {
         ],
         yAxis: [
           {
-            type: "value",
+            type: 'value',
             axisTick: {
               show: false
             }
@@ -126,19 +126,19 @@ export default {
         ],
         series: [
           {
-            name: "电力（万千瓦时）",
-            type: "bar",
-            stack: "vistors",
-            barWidth: "60%",
+            name: '电力（万千瓦时）',
+            type: 'bar',
+            stack: 'vistors',
+            barWidth: '60%',
             data: actualData,
             animationDuration
           }
         ]
-      });
+      })
     },
     handleClick(tab, event) {
-      this.chartData = demoChartData[tab.paneName];
+      this.chartData = demoChartData[tab.paneName]
     }
   }
-};
+}
 </script>

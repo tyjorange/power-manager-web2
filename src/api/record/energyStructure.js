@@ -21,21 +21,21 @@ export function API_GetCollectorTree(token) {
 }
 
 export function API_getAllSwitchs(token) {
-    return request({
-      url: '/get/allSwitchs',
-      method: 'get',
-      params: {
-        token
-      }
-    })
-  }
+  return request({
+    url: '/get/allSwitchs',
+    method: 'get',
+    params: {
+      token
+    }
+  })
+}
 
 export function API_GetSwitchs(collectorId) {
-    return request({
-      url: '/get/collector_switchs',
-      method: 'get',
-      params: {
-        collectorId
-      }
-    })
-  }
+  return request({
+    url: '/get/collector_switchs',
+    method: 'get',
+    params: {
+      collectorId
+    }
+  })
+}

@@ -101,7 +101,7 @@ export default {
     screenfull: '全屏',
     theme: '换肤',
     size: '布局大小',
-    langchange: '切换语言成功',
+    langchange: '切换语言成功'
   },
   login: {
     title: '系统登录',

@@ -38,72 +38,70 @@
               </template>
             </el-form-item>
             <el-checkbox :indeterminate="isIndeterminate1" v-model="checkAll1" @change="handleCheckAllChange1">电量：</el-checkbox>
-            <el-checkbox-group v-model="checkedItem1" @change="handleCheckedItemChange1" size="mini">
-              <el-checkbox v-for="item in Items1" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
+            <el-checkbox-group v-model="checkedItem1" size="mini" @change="handleCheckedItemChange1">
+              <el-checkbox v-for="item in Items1" :key="item.id" :label="item" border>{{ item.name }}</el-checkbox>
             </el-checkbox-group>
             <el-checkbox :indeterminate="isIndeterminate2" v-model="checkAll2" @change="handleCheckAllChange2">功率：</el-checkbox>
-            <el-checkbox-group v-model="checkedItem2" @change="handleCheckedItemChange2" size="mini">
-              <el-checkbox v-for="item in Items2" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
+            <el-checkbox-group v-model="checkedItem2" size="mini" @change="handleCheckedItemChange2">
+              <el-checkbox v-for="item in Items2" :key="item.id" :label="item" border>{{ item.name }}</el-checkbox>
             </el-checkbox-group>
             <el-checkbox :indeterminate="isIndeterminate3" v-model="checkAll3" @change="handleCheckAllChange3">其他：</el-checkbox>
-            <el-checkbox-group v-model="checkedItem3" @change="handleCheckedItemChange3" size="mini">
-              <el-checkbox v-for="item in Items3" :key="item.id" :label="item" border>{{item.name}}</el-checkbox>
+            <el-checkbox-group v-model="checkedItem3" size="mini" @change="handleCheckedItemChange3">
+              <el-checkbox v-for="item in Items3" :key="item.id" :label="item" border>{{ item.name }}</el-checkbox>
             </el-checkbox-group>
           </template>
         </el-collapse-item>
       </el-collapse>
 
-      <el-table v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" size="small"
-        border stripe highlight-current-row>
-        <el-table-column type="index">
-        </el-table-column>
-        <el-table-column prop="switchName" label="断路器" sortable>
-        </el-table-column>
-        <el-table-column prop="collectorName" label="集中器" min-width="120" sortable>
-        </el-table-column>
-        <el-table-column prop="signalsTypeName" label="数据项" sortable>
-        </el-table-column>
-        <el-table-column prop="fl" label="费率" min-width="30">
-        </el-table-column>
-        <el-table-column prop="bl" label="倍率" min-width="30">
-        </el-table-column>
-        <el-table-column prop="dataValue" label="数据值" align='right' sortable>
-        </el-table-column>
-        <el-table-column prop="dataUnit" label="计量单位" align='right'>
-        </el-table-column>
-        <el-table-column prop="dataLoop" label="采集周期">
-        </el-table-column>
-        <el-table-column prop="dataTime" label="最新采集时间" :formatter="cellRender" min-width="100" sortable>
-        </el-table-column>
+      <el-table
+        v-loading="listLoading"
+        :header-cell-style="tableHeaderColor"
+        :data="tableData"
+        element-loading-text="加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.1)"
+        size="small"
+        border
+        stripe
+        highlight-current-row>
+        <el-table-column type="index"/>
+        <el-table-column prop="switchName" label="断路器" sortable/>
+        <el-table-column prop="collectorName" label="集中器" min-width="120" sortable/>
+        <el-table-column prop="signalsTypeName" label="数据项" sortable/>
+        <el-table-column prop="fl" label="费率" min-width="30"/>
+        <el-table-column prop="bl" label="倍率" min-width="30"/>
+        <el-table-column prop="dataValue" label="数据值" align="right" sortable/>
+        <el-table-column prop="dataUnit" label="计量单位" align="right"/>
+        <el-table-column prop="dataLoop" label="采集周期"/>
+        <el-table-column :formatter="cellRender" prop="dataTime" label="最新采集时间" min-width="100" sortable/>
       </el-table>
     </el-form>
   </div>
 </template>
 
 <script>
-import { API_GetSignals } from "@/api/monitor/realdata";
-import { formatTime } from "@/utils/index";
+import { API_GetSignals } from '@/api/monitor/realdata'
+import { formatTime } from '@/utils/index'
 const itemOptions1 = [
-  { id: "wgdl", name: "无功电量" },
-  { id: "ygdl", name: "有功电量" }
-];
+  { id: 'wgdl', name: '无功电量' },
+  { id: 'ygdl', name: '有功电量' }
+]
 const itemOptions2 = [
-  { id: "wggl", name: "无功功率" },
-  { id: "yggl", name: "有功功率" }
-];
+  { id: 'wggl', name: '无功功率' },
+  { id: 'yggl', name: '有功功率' }
+]
 const itemOptions3 = [
-  { id: "glys", name: "功率因数" },
-  { id: "dl", name: "电流" },
-  { id: "dy", name: "电压" },
-  { id: "pl", name: "频率" },
-  { id: "wd", name: "温度" }
-];
+  { id: 'glys', name: '功率因数' },
+  { id: 'dl', name: '电流' },
+  { id: 'dy', name: '电压' },
+  { id: 'pl', name: '频率' },
+  { id: 'wd', name: '温度' }
+]
 export default {
   data() {
     return {
       tableData: [],
-      activeNames: "col1",
+      activeNames: 'col1',
       checkAll1: true,
       checkAll2: false,
       checkAll3: false,
@@ -119,42 +117,42 @@ export default {
       radio1: 1,
       radio2: 8,
       listLoading: false
-    };
+    }
   },
   computed: {
     listenSwitchs() {
-      return this.$store.getters.switchs; // 监听右表变化
+      return this.$store.getters.switchs // 监听右表变化
     }
   },
   watch: {
     checkedItem1: {
       deep: true,
       handler(val) {
-        this.$store.dispatch("S_SetCI1", this.checkedItem1); // 监听并更新全局变量
+        this.$store.dispatch('S_SetCI1', this.checkedItem1) // 监听并更新全局变量
       }
     },
     checkedItem2: {
       deep: true,
       handler(val) {
-        this.$store.dispatch("S_SetCI2", this.checkedItem2); // 监听并更新全局变量
+        this.$store.dispatch('S_SetCI2', this.checkedItem2) // 监听并更新全局变量
       }
     },
     checkedItem3: {
       deep: true,
       handler(val) {
-        this.$store.dispatch("S_SetCI3", this.checkedItem3); // 监听并更新全局变量
+        this.$store.dispatch('S_SetCI3', this.checkedItem3) // 监听并更新全局变量
       }
     },
     radio1: {
       deep: true,
       handler(val) {
-        this.$store.dispatch("S_SetRD1", this.radio1); // 监听并更新全局变量
+        this.$store.dispatch('S_SetRD1', this.radio1) // 监听并更新全局变量
       }
     },
     radio2: {
       deep: true,
       handler(val) {
-        this.$store.dispatch("S_SetRD2", this.radio2); // 监听并更新全局变量
+        this.$store.dispatch('S_SetRD2', this.radio2) // 监听并更新全局变量
       }
     },
     listenSwitchs: {
@@ -167,31 +165,31 @@ export default {
           this.$store.getters.checkedItem3
         )
           .then(response => {
-            this.tableData = response.data; // 监听右表变化更新左表值
+            this.tableData = response.data // 监听右表变化更新左表值
           })
           .catch(error => {
-            console.log(error);
-          });
+            console.log(error)
+          })
       }
     }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
-      this.$store.dispatch("S_SetCI1", this.checkedItem1); // 初始化全局变量
-      this.$store.dispatch("S_SetCI2", this.checkedItem2); // 初始化全局变量
-      this.$store.dispatch("S_SetCI3", this.checkedItem3); // 初始化全局变量
-      this.$store.dispatch("S_SetRD1", this.radio1); // 初始化全局变量
-      this.$store.dispatch("S_SetRD2", this.radio2); // 初始化全局变量
+      this.$store.dispatch('S_SetCI1', this.checkedItem1) // 初始化全局变量
+      this.$store.dispatch('S_SetCI2', this.checkedItem2) // 初始化全局变量
+      this.$store.dispatch('S_SetCI3', this.checkedItem3) // 初始化全局变量
+      this.$store.dispatch('S_SetRD1', this.radio1) // 初始化全局变量
+      this.$store.dispatch('S_SetRD2', this.radio2) // 初始化全局变量
     },
     onSubmit() {
       if (this.listLoading) {
-        this.activeNames = "col1";
-        console.log("Loading...");
+        this.activeNames = 'col1'
+        console.log('Loading...')
       } else {
-        this.listLoading = true;
+        this.listLoading = true
         // console.log(this.$store.getters.checkedItem1);
         // console.log(this.$store.getters.checkedItem2);
         // console.log(this.$store.getters.checkedItem3);
@@ -205,60 +203,60 @@ export default {
           this.$store.getters.checkedItem3
         )
           .then(response => {
-            this.tableData = response.data; // 手动更新左表值
-            this.listLoading = false;
+            this.tableData = response.data // 手动更新左表值
+            this.listLoading = false
             if (this.total === 0) {
-              this.activeNames = "col1";
+              this.activeNames = 'col1'
             } else {
-              this.activeNames = "col1";
+              this.activeNames = 'col1'
             }
           })
           .catch(error => {
-            console.log(error);
-          });
+            console.log(error)
+          })
       }
     },
     handleCheckAllChange1(val) {
-      this.checkedItem1 = val ? itemOptions1 : [];
-      this.isIndeterminate1 = false;
+      this.checkedItem1 = val ? itemOptions1 : []
+      this.isIndeterminate1 = false
     },
     handleCheckAllChange2(val) {
-      this.checkedItem2 = val ? itemOptions2 : [];
-      this.isIndeterminate2 = false;
+      this.checkedItem2 = val ? itemOptions2 : []
+      this.isIndeterminate2 = false
     },
     handleCheckAllChange3(val) {
-      this.checkedItem3 = val ? itemOptions3 : [];
-      this.isIndeterminate3 = false;
+      this.checkedItem3 = val ? itemOptions3 : []
+      this.isIndeterminate3 = false
     },
     handleCheckedItemChange1(value) {
-      let checkedCount = value.length;
-      this.checkAll1 = checkedCount === this.Items1.length;
+      const checkedCount = value.length
+      this.checkAll1 = checkedCount === this.Items1.length
       this.isIndeterminate1 =
-        checkedCount > 0 && checkedCount < this.Items1.length;
+        checkedCount > 0 && checkedCount < this.Items1.length
     },
     handleCheckedItemChange2(value) {
-      let checkedCount = value.length;
-      this.checkAll2 = checkedCount === this.Items2.length;
+      const checkedCount = value.length
+      this.checkAll2 = checkedCount === this.Items2.length
       this.isIndeterminate2 =
-        checkedCount > 0 && checkedCount < this.Items2.length;
+        checkedCount > 0 && checkedCount < this.Items2.length
     },
     handleCheckedItemChange3(value) {
-      let checkedCount = value.length;
-      this.checkAll3 = checkedCount === this.Items3.length;
+      const checkedCount = value.length
+      this.checkAll3 = checkedCount === this.Items3.length
       this.isIndeterminate3 =
-        checkedCount > 0 && checkedCount < this.Items3.length;
+        checkedCount > 0 && checkedCount < this.Items3.length
     },
     cellRender(row, column, cellValue, index) {
-      return formatTime(cellValue);
+      return formatTime(cellValue)
     },
     // 修改table header的背景色
     tableHeaderColor({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
-        return "background-color: #eee;color: #000;";
+        return 'background-color: #eee;color: #000;'
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

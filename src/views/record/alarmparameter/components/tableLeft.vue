@@ -1,4 +1,4 @@
- <template>
+<template>
   <div>
     <el-form ref="form" size="mini" label-width="0px">
       <!-- <el-collapse v-model="activeNames">
@@ -12,29 +12,27 @@
       </el-button-group>
       <!-- </el-collapse-item>
       </el-collapse> -->
-      <el-table v-loading="listLoading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.1)" :header-cell-style="tableHeaderColor" :data="tableData" size="small"
-        border stripe highlight-current-row>
-        <el-table-column type="index">
-        </el-table-column>
-        <el-table-column prop="date" label="告警类型" width="180">
-        </el-table-column>
-        <el-table-column prop="name" label="基准对象" width="180">
-        </el-table-column>
-        <el-table-column prop="address" label="比较对象">
-        </el-table-column>
-        <el-table-column prop="name" label="方案">
-        </el-table-column>
-        <el-table-column prop="name" label="对比时间">
-        </el-table-column>
-        <el-table-column prop="name" label="数据类型">
-        </el-table-column>
-        <el-table-column prop="name" label="阈值">
-        </el-table-column>
-        <el-table-column prop="name" label="额外参数">
-        </el-table-column>
-        <el-table-column prop="name" label="创建人">
-        </el-table-column>
+      <el-table
+        v-loading="listLoading"
+        :header-cell-style="tableHeaderColor"
+        :data="tableData"
+        element-loading-text="加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.1)"
+        size="small"
+        border
+        stripe
+        highlight-current-row>
+        <el-table-column type="index"/>
+        <el-table-column prop="date" label="告警类型" width="180"/>
+        <el-table-column prop="name" label="基准对象" width="180"/>
+        <el-table-column prop="address" label="比较对象"/>
+        <el-table-column prop="name" label="方案"/>
+        <el-table-column prop="name" label="对比时间"/>
+        <el-table-column prop="name" label="数据类型"/>
+        <el-table-column prop="name" label="阈值"/>
+        <el-table-column prop="name" label="额外参数"/>
+        <el-table-column prop="name" label="创建人"/>
       </el-table>
     </el-form>
   </div>
@@ -44,22 +42,22 @@
 export default {
   data() {
     return {
-      activeNames: "",
+      activeNames: '',
       radio1: 1,
       tableData: [],
       listLoading: false
-    };
+    }
   },
   methods: {
     onSubmit() {},
     // 修改table header的背景色
     tableHeaderColor({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
-        return "background-color: #eee;color: #000;";
+        return 'background-color: #eee;color: #000;'
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

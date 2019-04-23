@@ -65,12 +65,13 @@ service.interceptors.response.use(
       })
       return Promise.reject('code 401')
     } else {
-      if (res.code !== 0 & res.code !== 2 & res.code !== 4 & res.code !== 5)
+      if (res.code !== 0 & res.code !== 2 & res.code !== 4 & res.code !== 5) {
         Message({
           message: res.msg,
           type: 'success',
           duration: 5 * 1000
         })
+      }
       return response.data
     }
   },

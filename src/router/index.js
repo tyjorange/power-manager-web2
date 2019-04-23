@@ -77,24 +77,24 @@ export const asyncRouterMap = [
         icon: 'table'
       }
     },
-      {
-        path: '/hisData',
-        name: 'HisData',
-        component: () => import('@/views/monitor/hisdata/index'),
-        meta: {
-          title: 'HisData',
-          icon: 'nested'
-        }
-      },
-      {
-        path: '/pointUsed',
-        name: 'PointUsed',
-        component: () => import('@/views/monitor/pointused/index'),
-        meta: {
-          title: 'PointUsed',
-          icon: 'edit'
-        }
+    {
+      path: '/hisData',
+      name: 'HisData',
+      component: () => import('@/views/monitor/hisdata/index'),
+      meta: {
+        title: 'HisData',
+        icon: 'nested'
       }
+    },
+    {
+      path: '/pointUsed',
+      name: 'PointUsed',
+      component: () => import('@/views/monitor/pointused/index'),
+      meta: {
+        title: 'PointUsed',
+        icon: 'edit'
+      }
+    }
     ]
   },
 
@@ -116,47 +116,47 @@ export const asyncRouterMap = [
         icon: 'guide'
       }
     },
-      {
-        path: '/loadRate',
-        name: 'LoadRate',
-        component: () => import('@/views/form/index'),
-        meta: {
-          title: 'LoadRate',
-          icon: 'eye'
-        }
-      }, {
-        path: '/pointCurve',
-        name: 'PointCurve',
-        component: () => import('@/views/form/index'),
-        meta: {
-          title: 'PointCurve',
-          icon: 'clipboard'
-        }
-      }, {
-        path: '/unbalanceRate',
-        name: 'UnbalanceRate',
-        component: () => import('@/views/form/index'),
-        meta: {
-          title: 'UnbalanceRate',
-          icon: 'drag'
-        }
-      }, {
-        path: '/balanceReport',
-        name: 'BalanceReport',
-        component: () => import('@/views/form/index'),
-        meta: {
-          title: 'BalanceReport',
-          icon: 'nested'
-        }
-      }, {
-        path: '/alarmRecord',
-        name: 'AlarmRecord',
-        component: () => import('@/views/form/index'),
-        meta: {
-          title: 'AlarmRecord',
-          icon: 'tab'
-        }
+    {
+      path: '/loadRate',
+      name: 'LoadRate',
+      component: () => import('@/views/form/index'),
+      meta: {
+        title: 'LoadRate',
+        icon: 'eye'
       }
+    }, {
+      path: '/pointCurve',
+      name: 'PointCurve',
+      component: () => import('@/views/form/index'),
+      meta: {
+        title: 'PointCurve',
+        icon: 'clipboard'
+      }
+    }, {
+      path: '/unbalanceRate',
+      name: 'UnbalanceRate',
+      component: () => import('@/views/form/index'),
+      meta: {
+        title: 'UnbalanceRate',
+        icon: 'drag'
+      }
+    }, {
+      path: '/balanceReport',
+      name: 'BalanceReport',
+      component: () => import('@/views/form/index'),
+      meta: {
+        title: 'BalanceReport',
+        icon: 'nested'
+      }
+    }, {
+      path: '/alarmRecord',
+      name: 'AlarmRecord',
+      component: () => import('@/views/form/index'),
+      meta: {
+        title: 'AlarmRecord',
+        icon: 'tab'
+      }
+    }
     ]
   },
 
@@ -254,42 +254,42 @@ export const asyncRouterMap = [
         icon: 'tree'
       }
     },
-      {
-        path: '/energyStructure',
-        name: 'EnergyStructure',
-        component: () => import('@/views/record/energyStructure/index'),
-        meta: {
-          title: 'EnergyStructure',
-          icon: 'tree'
-        }
-      },
-      {
-        path: '/rtuManage',
-        name: 'RtuManage',
-        component: () => import('@/views/record/rtumanage/index'),
-        meta: {
-          title: 'RtuManage',
-          icon: 'tree'
-        }
-      },
-      {
-        path: '/balanceFormula',
-        name: 'BalanceFormula',
-        component: () => import('@/views/record/balanceformula/index'),
-        meta: {
-          title: 'BalanceFormula',
-          icon: 'tree'
-        }
-      },
-      {
-        path: '/alarmParam',
-        name: 'AlarmParam',
-        component: () => import('@/views/record/alarmparameter/index'),
-        meta: {
-          title: 'AlarmParam',
-          icon: 'tree'
-        }
+    {
+      path: '/energyStructure',
+      name: 'EnergyStructure',
+      component: () => import('@/views/record/energyStructure/index'),
+      meta: {
+        title: 'EnergyStructure',
+        icon: 'tree'
       }
+    },
+    {
+      path: '/rtuManage',
+      name: 'RtuManage',
+      component: () => import('@/views/record/rtumanage/index'),
+      meta: {
+        title: 'RtuManage',
+        icon: 'tree'
+      }
+    },
+    {
+      path: '/balanceFormula',
+      name: 'BalanceFormula',
+      component: () => import('@/views/record/balanceformula/index'),
+      meta: {
+        title: 'BalanceFormula',
+        icon: 'tree'
+      }
+    },
+    {
+      path: '/alarmParam',
+      name: 'AlarmParam',
+      component: () => import('@/views/record/alarmparameter/index'),
+      meta: {
+        title: 'AlarmParam',
+        icon: 'tree'
+      }
+    }
     ]
   },
 
@@ -311,7 +311,7 @@ export const asyncRouterMap = [
         title: 'AccountManageInit',
         icon: 'people'
       }
-    },]
+    }]
   },
 
   {

@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="0">
       <el-col :span="12">
-        <el-card class="box-card2" shadow="never" :body-style="{ padding: '10px' }">
+        <el-card :body-style="{ padding: '10px' }" class="box-card2" shadow="never">
           <div slot="header" class="clearfix">
             <span>集中器在线数(个)</span>
           </div>
@@ -12,7 +12,7 @@
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card class="box-card2" shadow="never" :body-style="{ padding: '10px' }">
+        <el-card :body-style="{ padding: '10px' }" class="box-card2" shadow="never">
           <div slot="header" class="clearfix">
             <span>集中器数量(个)</span>
           </div>
@@ -24,7 +24,7 @@
     </el-row>
     <el-row :gutter="0">
       <el-col :span="12">
-        <el-card class="box-card2" shadow="never" :body-style="{ padding: '10px' }">
+        <el-card :body-style="{ padding: '10px' }" class="box-card2" shadow="never">
           <div slot="header" class="clearfix">
             <span>未实时上报数(个)</span>
           </div>
@@ -34,7 +34,7 @@
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card class="box-card2" shadow="never" :body-style="{ padding: '10px' }">
+        <el-card :body-style="{ padding: '10px' }" class="box-card2" shadow="never">
           <div slot="header" class="clearfix">
             <span>断路器数量(个)</span>
           </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style lang="scss" scoped>

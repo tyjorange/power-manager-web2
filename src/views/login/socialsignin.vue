@@ -8,7 +8,7 @@
         <svg-icon
           icon-class="wechat"
           class="icon"
-        /></span> 微信
+      /></span> 微信
     </div>
     <div
       class="sign-btn"
@@ -18,7 +18,7 @@
         <svg-icon
           icon-class="qq"
           class="icon"
-        /></span> QQ
+      /></span> QQ
     </div>
   </div>
 </template>
@@ -27,10 +27,10 @@
 // import openWindow from '@/utils/openWindow'
 
 export default {
-  name: "SocialSignin",
+  name: 'SocialSignin',
   methods: {
     wechatHandleClick(thirdpart) {
-      alert("ok");
+      alert('ok')
       // this.$store.commit('SET_AUTH_TYPE', thirdpart)
       // const appid = 'xxxxx'
       // const redirect_uri = encodeURIComponent('xxx/redirect?redirect=' + window.location.origin + '/auth-redirect')
@@ -38,7 +38,7 @@ export default {
       // openWindow(url, thirdpart, 540, 540)
     },
     tencentHandleClick(thirdpart) {
-      alert("ok");
+      alert('ok')
       // this.$store.commit('SET_AUTH_TYPE', thirdpart)
       // const client_id = 'xxxxx'
       // const redirect_uri = encodeURIComponent('xxx/redirect?redirect=' + window.location.origin + '/auth-redirect')
@@ -46,7 +46,7 @@ export default {
       // openWindow(url, thirdpart, 540, 540)
     }
   }
-};
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>

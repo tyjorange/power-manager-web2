@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import tableLeft from "./components/tableLeft";
+import tableLeft from './components/tableLeft'
 export default {
   components: { tableLeft }
-};
+}
 </script>
 
 <style lang="scss" scoped>

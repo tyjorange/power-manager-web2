@@ -49,35 +49,35 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Breadcrumb from "@/components/Breadcrumb";
-import Hamburger from "@/components/Hamburger";
-//import ErrorLog from '@/components/ErrorLog'
-import Screenfull from "@/components/Screenfull";
-import LangSelect from "@/components/LangSelect";
+import { mapGetters } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+// import ErrorLog from '@/components/ErrorLog'
+import Screenfull from '@/components/Screenfull'
+import LangSelect from '@/components/LangSelect'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    //ErrorLog,
+    // ErrorLog,
     Screenfull,
     LangSelect
   },
   computed: {
-    ...mapGetters(["sidebar", "name", "avatar", "device"])
+    ...mapGetters(['sidebar', 'name', 'avatar', 'device'])
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch("ToggleSideBar");
+      this.$store.dispatch('ToggleSideBar')
     },
     logout() {
-      this.$store.dispatch("S_LogOut").then(() => {
-        location.reload(); // In order to re-instantiate the vue-router object to avoid bugs
-      });
+      this.$store.dispatch('S_LogOut').then(() => {
+        location.reload() // In order to re-instantiate the vue-router object to avoid bugs
+      })
     }
   }
-};
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>

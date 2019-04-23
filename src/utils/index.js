@@ -72,7 +72,7 @@ export function formatTime(time, option) {
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function () {
+  const later = function() {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -89,7 +89,7 @@ export function debounce(func, wait, immediate) {
     }
   }
 
-  return function (...args) {
+  return function(...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -107,19 +107,19 @@ export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
 
-//获取当前时间，格式YYYY-MM-DD
+// 获取当前时间，格式YYYY-MM-DD
 export function getNowFormatDate() {
-    var date = new Date();
-    var seperator1 = "-";
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = year + seperator1 + month + seperator1 + strDate;
-    return currentdate;
+  var date = new Date()
+  var seperator1 = '-'
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var strDate = date.getDate()
+  if (month >= 1 && month <= 9) {
+    month = '0' + month
+  }
+  if (strDate >= 0 && strDate <= 9) {
+    strDate = '0' + strDate
+  }
+  var currentdate = year + seperator1 + month + seperator1 + strDate
+  return currentdate
 }
