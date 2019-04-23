@@ -53,7 +53,7 @@ const permission = {
         } else {
           accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
         }
-        console.log(accessedRouters)
+        console.log('res= ', accessedRouters)
         commit('SET_ROUTERS', accessedRouters)
         resolve()
       })

@@ -23,14 +23,35 @@ import Layout from '../views/layout/Layout'
  **/
 export const constantRouterMap = [
   {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/index',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: 'permission',
+      icon: 'lock',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'page',
+        component: () => import('@/views/permission/page'),
+        name: 'PagePermission',
+        meta: {
+          title: 'pagePermission',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'directive',
+        component: () => import('@/views/permission/directive'),
+        name: 'DirectivePermission',
+        meta: {
+          title: 'directivePermission'
+          // if do not set roles, means: this page does not require permission
+        }
+      }
+    ]
   },
   {
     path: '/',
@@ -47,6 +68,16 @@ export const constantRouterMap = [
         noCache: true
       }
     }]
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
   }
 ]
 
@@ -66,7 +97,8 @@ export const asyncRouterMap = [
     name: 'Monitor',
     meta: {
       title: 'Monitor',
-      icon: 'example'
+      icon: 'example',
+      roles: ['admin', 'editor'] // you can set roles in root nav
     },
     children: [{
       path: '/realData',
@@ -74,7 +106,8 @@ export const asyncRouterMap = [
       component: () => import('@/views/monitor/realdata/index'),
       meta: {
         title: 'RealData',
-        icon: 'table'
+        icon: 'table',
+        roles: ['admin'] // or you can only set roles in sub nav
       }
     },
     {
@@ -313,7 +346,6 @@ export const asyncRouterMap = [
       }
     }]
   },
-
   {
     path: '*',
     redirect: '/404',
