@@ -10,18 +10,19 @@ Vue.use(Router)
 import Layout from '../views/layout/Layout'
 
 /**
-* hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
-* alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
-*                                if not set alwaysShow, only more than one route under the children
-*                                it will becomes nested mode, otherwise not show the root menu
-* redirect: noredirect           if `redirect:noredirect` will no redirect in the breadcrumb
-* name:'router-name'             the name is used by <keep-alive> (must set!!!)
-* meta : {
+ * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
+ * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
+ *                                if not set alwaysShow, only more than one route under the children
+ *                                it will becomes nested mode, otherwise not show the root menu
+ * redirect: noredirect           if `redirect:noredirect` will no redirect in the breadcrumb
+ * name:'router-name'             the name is used by <keep-alive> (must set!!!)
+ * meta : {
     title: 'title'               the name show in submenu and breadcrumb (recommend set)
     icon: 'svg-name'             the icon show in the sidebar,
   }
-**/
-export const constantRouterMap = [{
+ **/
+export const constantRouterMap = [
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -31,7 +32,6 @@ export const constantRouterMap = [{
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -47,8 +47,18 @@ export const constantRouterMap = [{
         noCache: true
       }
     }]
-  },
+  }
+]
 
+export default new Router({
+  // mode: 'history', //后端支持可开
+  scrollBehavior: () => ({
+    y: 0
+  }),
+  routes: constantRouterMap
+})
+
+export const asyncRouterMap = [
   {
     path: '/monitor',
     component: Layout,
@@ -59,14 +69,14 @@ export const constantRouterMap = [{
       icon: 'example'
     },
     children: [{
-        path: '/realData',
-        name: 'RealData',
-        component: () => import('@/views/monitor/realdata/index'),
-        meta: {
-          title: 'RealData',
-          icon: 'table'
-        }
-      },
+      path: '/realData',
+      name: 'RealData',
+      component: () => import('@/views/monitor/realdata/index'),
+      meta: {
+        title: 'RealData',
+        icon: 'table'
+      }
+    },
       {
         path: '/hisData',
         name: 'HisData',
@@ -98,14 +108,14 @@ export const constantRouterMap = [{
       icon: 'size'
     },
     children: [{
-        path: '/powerFactor',
-        name: 'PowerFactor',
-        component: () => import('@/views/form/index'),
-        meta: {
-          title: 'PowerFactor',
-          icon: 'guide'
-        }
-      },
+      path: '/powerFactor',
+      name: 'PowerFactor',
+      component: () => import('@/views/form/index'),
+      meta: {
+        title: 'PowerFactor',
+        icon: 'guide'
+      }
+    },
       {
         path: '/loadRate',
         name: 'LoadRate',
@@ -236,14 +246,14 @@ export const constantRouterMap = [{
       icon: 'message'
     },
     children: [{
-        path: '/enterprise',
-        name: 'Enterprise',
-        component: () => import('@/views/record/enterprise/index'),
-        meta: {
-          title: 'Enterprise',
-          icon: 'tree'
-        }
-      },
+      path: '/enterprise',
+      name: 'Enterprise',
+      component: () => import('@/views/record/enterprise/index'),
+      meta: {
+        title: 'Enterprise',
+        icon: 'tree'
+      }
+    },
       {
         path: '/energyStructure',
         name: 'EnergyStructure',
@@ -301,7 +311,7 @@ export const constantRouterMap = [{
         title: 'AccountManageInit',
         icon: 'people'
       }
-    }, ]
+    },]
   },
 
   {
@@ -310,13 +320,3 @@ export const constantRouterMap = [{
     hidden: true
   }
 ]
-
-export default new Router({
-  // mode: 'history', //后端支持可开
-  scrollBehavior: () => ({
-    y: 0
-  }),
-  routes: constantRouterMap
-})
-
-export const asyncRouterMap = []

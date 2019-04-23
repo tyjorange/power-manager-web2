@@ -12,6 +12,7 @@ const getters = {
   checkedItem3: state => state.table.checkedItem3,
   radio1: state => state.table.radio1,
   radio2: state => state.table.radio2,
-  switchs: state => state.table.switchs
+  switchs: state => state.table.switchs,
+  addRouters: state => state.permission.addRouters
 }
 export default getters
